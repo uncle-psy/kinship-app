@@ -1,26 +1,388 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ===== Font Faces ===== */
+@font-face {
+  font-family: 'Goudy Heavyface';
+  src: url('/fonts/Goudy Heavyface.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
 }
 
+@font-face {
+  font-family: 'Avenir LT Pro';
+  src: url('/fonts/AvenirLTProLight.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Avenir LT Pro';
+  src: url('/fonts/AvenirLTProBook.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Avenir LT Pro';
+  src: url('/fonts/AvenirLTProRoman.otf') format('opentype');
+  font-weight: 450;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Avenir LT Pro';
+  src: url('/fonts/AvenirLTProMedium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Avenir LT Pro';
+  src: url('/fonts/AvenirLTProHeavy.otf') format('opentype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Avenir LT Pro';
+  src: url('/fonts/AvenirLTProBlack.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ===== Theme ===== */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: #08080F;
+  --color-surface: #111118;
+  --color-surface-elevated: #18182280;
+  --color-surface-card: #1E1E28;
+  --color-border-subtle: rgba(255, 255, 255, 0.06);
+  --color-border-medium: rgba(255, 255, 255, 0.1);
+  --color-accent-gold: #D4A574;
+  --color-accent-gold-light: #E8C8A0;
+  --color-accent-sage: #7EB8A8;
+  --color-accent-lavender: #A78BBA;
+  --color-accent-coral: #E87B6B;
+  --color-accent-teal: #4ECDC4;
+  --color-text-primary: #F2EDE8;
+  --color-text-secondary: #8A8494;
+  --color-text-tertiary: #5A5565;
+  --color-danger: #E85D5D;
+  --color-success: #5DE8A0;
+  --font-brand: 'Goudy Heavyface', Georgia, serif;
+  --font-body: 'Avenir LT Pro', 'Montserrat', system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ===== Base ===== */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #04040a;
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  overflow: hidden;
+  height: 100%;
+}
+
+/* ===== Scrollbar ===== */
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+/* ===== Phone Frame ===== */
+.phone-frame {
+  position: relative;
+  width: 390px;
+  height: 844px;
+  border-radius: 52px;
+  background: var(--color-background);
+  overflow: hidden;
+  box-shadow:
+    0 0 0 2px #2a2a35,
+    0 0 0 4px #1a1a22,
+    0 0 80px rgba(212, 165, 116, 0.08),
+    0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+.phone-frame::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 126px;
+  height: 34px;
+  background: #000;
+  border-radius: 0 0 20px 20px;
+  z-index: 50;
+}
+
+.phone-inner {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== Status Bar ===== */
+.status-bar {
+  height: 54px;
+  padding: 14px 24px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  font-size: 14px;
+  font-weight: 500;
+  position: relative;
+  z-index: 40;
+  flex-shrink: 0;
+}
+
+/* ===== Bottom Nav ===== */
+.bottom-nav {
+  height: 84px;
+  padding: 8px 0 20px;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  background: linear-gradient(to top, var(--color-background) 60%, transparent);
+  backdrop-filter: blur(20px);
+  position: relative;
+  z-index: 40;
+  flex-shrink: 0;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.nav-item.active {
+  color: var(--color-accent-gold);
+}
+
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--color-accent-gold);
+  box-shadow: 0 0 8px var(--color-accent-gold);
+}
+
+.nav-label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* ===== Content ===== */
+.content-area {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ===== Ambient Pulse ===== */
+.ambient-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.15;
+  pointer-events: none;
+  animation: pulse-slow 8s ease-in-out infinite;
+}
+
+@keyframes pulse-slow {
+  0%, 100% { transform: scale(1); opacity: 0.1; }
+  50% { transform: scale(1.2); opacity: 0.2; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes coin-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-5px) rotate(2deg); }
+  75% { transform: translateY(3px) rotate(-1deg); }
+}
+
+/* ===== Chat Styles ===== */
+.chat-bubble {
+  max-width: 82%;
+  padding: 12px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  line-height: 1.5;
+  position: relative;
+}
+
+.chat-bubble.incoming {
+  background: #1A1A25;
+  border-bottom-left-radius: 6px;
+  align-self: flex-start;
+}
+
+.chat-bubble.outgoing {
+  background: linear-gradient(135deg, #2A2540 0%, #1E1A30 100%);
+  border-bottom-right-radius: 6px;
+  align-self: flex-end;
+}
+
+/* ===== Product Card in Chat ===== */
+.product-chat-card {
+  background: var(--color-surface-card);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 16px;
+  padding: 14px;
+  margin-top: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.product-chat-card:active {
+  transform: scale(0.98);
+}
+
+/* ===== Media Card ===== */
+.media-card {
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.media-card:active {
+  transform: scale(0.97);
+}
+
+.media-long-press {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  border-radius: 20px;
+  z-index: 10;
+}
+
+/* ===== Game Tile ===== */
+.game-tile {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.game-tile:hover {
+  transform: translateY(-4px);
+}
+
+.game-tile:active {
+  transform: scale(0.96);
+}
+
+/* ===== Isometric Grid ===== */
+.iso-grid {
+  transform: rotateX(55deg) rotateZ(45deg);
+  transform-style: preserve-3d;
+}
+
+.iso-tile {
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.iso-tile:hover {
+  transform: translateZ(10px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+/* ===== Vault Ring ===== */
+.vault-ring {
+  animation: coin-float 6s ease-in-out infinite;
+}
+
+/* ===== Glass Card ===== */
+.glass-card {
+  background: rgba(24, 24, 34, 0.5);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 20px;
+}
+
+/* ===== Gathering Pill ===== */
+.gathering-pill {
+  padding: 8px 16px;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+}
+
+.gathering-pill.active {
+  background: rgba(212, 165, 116, 0.15);
+  border-color: rgba(212, 165, 116, 0.3);
+  color: var(--color-accent-gold);
+}
+
+.gathering-pill:not(.active) {
+  background: var(--color-surface);
+  border-color: var(--color-border-subtle);
+  color: var(--color-text-secondary);
+}
+
+/* ===== Responsive (actual mobile) ===== */
+@media (max-width: 430px) {
+  .phone-frame {
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+    box-shadow: none;
   }
-}
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  .phone-frame::before {
+    display: none;
+  }
 }
