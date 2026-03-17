@@ -12,10 +12,10 @@ interface BottomNavProps {
 
 const tabs: { id: TabId; label: string; Icon: typeof MessageCircle }[] = [
   { id: 'chat', label: 'Chat', Icon: MessageCircle },
-  { id: 'media', label: 'Media', Icon: Play },
-  { id: 'games', label: 'Games', Icon: Gamepad2 },
-  { id: 'shop', label: 'Shop', Icon: ShoppingBag },
-  { id: 'vault', label: 'Vault', Icon: Vault },
+  { id: 'media', label: 'Flow', Icon: Play },
+  { id: 'games', label: 'Experiences', Icon: Gamepad2 },
+  { id: 'shop', label: 'Discover', Icon: ShoppingBag },
+  { id: 'vault', label: 'Earn', Icon: Vault },
 ];
 
 export default function BottomNav({ active, onChange }: BottomNavProps) {
@@ -27,7 +27,7 @@ export default function BottomNav({ active, onChange }: BottomNavProps) {
           className={`nav-item ${active === id ? 'active' : ''}`}
           onClick={() => onChange(id)}
           whileTap={{ scale: 0.85 }}
-          style={{ color: active === id ? 'var(--color-accent-gold)' : 'var(--color-text-tertiary)' }}
+          style={{ color: active === id ? 'var(--color-accent-teal)' : 'var(--color-text-tertiary)' }}
         >
           <Icon size={22} strokeWidth={active === id ? 2 : 1.5} />
           <span className="nav-label">{label}</span>

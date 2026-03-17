@@ -11,12 +11,12 @@ import GamesView from '@/components/games/GamesView';
 import ShopView from '@/components/shop/ShopView';
 import VaultView from '@/components/vault/VaultView';
 
-const tabTitles: Record<TabId, string | undefined> = {
-  chat: undefined, // shows "Kinship" brand
-  media: 'Feed',
-  games: 'Games',
-  shop: 'Shop',
-  vault: 'Vault',
+const tabTitles: Record<TabId, string> = {
+  chat: 'Chat',
+  media: 'Flow',
+  games: 'Experiences',
+  shop: 'Discover',
+  vault: 'Earn',
 };
 
 export default function Home() {

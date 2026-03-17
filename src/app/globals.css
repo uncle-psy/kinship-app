@@ -59,23 +59,23 @@
 
 /* ===== Theme ===== */
 @theme inline {
-  --color-background: #08080F;
-  --color-surface: #111118;
-  --color-surface-elevated: #18182280;
-  --color-surface-card: #1E1E28;
-  --color-border-subtle: rgba(255, 255, 255, 0.06);
-  --color-border-medium: rgba(255, 255, 255, 0.1);
-  --color-accent-gold: #D4A574;
-  --color-accent-gold-light: #E8C8A0;
-  --color-accent-sage: #7EB8A8;
-  --color-accent-lavender: #A78BBA;
-  --color-accent-coral: #E87B6B;
-  --color-accent-teal: #4ECDC4;
-  --color-text-primary: #F2EDE8;
-  --color-text-secondary: #8A8494;
-  --color-text-tertiary: #5A5565;
-  --color-danger: #E85D5D;
-  --color-success: #5DE8A0;
+  --color-background: #09073a;
+  --color-surface: #0e0c50;
+  --color-surface-elevated: rgba(16, 14, 68, 0.85);
+  --color-surface-card: #141265;
+  --color-border-subtle: rgba(255, 255, 255, 0.08);
+  --color-border-medium: rgba(255, 255, 255, 0.14);
+  --color-accent-gold: #FFCA00;
+  --color-accent-gold-light: #FFD840;
+  --color-accent-sage: #03CCDA;
+  --color-accent-lavender: #6536B4;
+  --color-accent-coral: #EC008C;
+  --color-accent-teal: #03CCDA;
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: rgba(255, 255, 255, 0.6);
+  --color-text-tertiary: rgba(255, 255, 255, 0.35);
+  --color-danger: #FF3A3A;
+  --color-success: #00EB7A;
   --font-brand: 'Goudy Heavyface', Georgia, serif;
   --font-body: 'Avenir LT Pro', 'Montserrat', system-ui, sans-serif;
 }
@@ -88,7 +88,7 @@
 html, body {
   margin: 0;
   padding: 0;
-  background: #04040a;
+  background: #050330;
   color: var(--color-text-primary);
   font-family: var(--font-body);
   overflow: hidden;
@@ -109,9 +109,9 @@ html, body {
   background: var(--color-background);
   overflow: hidden;
   box-shadow:
-    0 0 0 2px #2a2a35,
-    0 0 0 4px #1a1a22,
-    0 0 80px rgba(212, 165, 116, 0.08),
+    0 0 0 2px #1a1860,
+    0 0 0 4px #0f0d48,
+    0 0 80px rgba(3, 204, 218, 0.12),
     0 20px 60px rgba(0, 0, 0, 0.6);
 }
 
@@ -157,8 +157,9 @@ html, body {
   display: flex;
   justify-content: space-around;
   align-items: flex-start;
-  background: linear-gradient(to top, var(--color-background) 60%, transparent);
+  background: linear-gradient(to top, #09073a 55%, rgba(9, 7, 58, 0));
   backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
   position: relative;
   z-index: 40;
   flex-shrink: 0;
@@ -177,7 +178,7 @@ html, body {
 }
 
 .nav-item.active {
-  color: var(--color-accent-gold);
+  color: var(--color-accent-teal);
 }
 
 .nav-item.active::before {
@@ -186,11 +187,11 @@ html, body {
   top: -2px;
   left: 50%;
   transform: translateX(-50%);
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: var(--color-accent-gold);
-  box-shadow: 0 0 8px var(--color-accent-gold);
+  width: 28px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--color-accent-teal);
+  box-shadow: 0 0 10px var(--color-accent-teal);
 }
 
 .nav-label {
@@ -250,13 +251,13 @@ html, body {
 }
 
 .chat-bubble.incoming {
-  background: #1A1A25;
+  background: #131170;
   border-bottom-left-radius: 6px;
   align-self: flex-start;
 }
 
 .chat-bubble.outgoing {
-  background: linear-gradient(135deg, #2A2540 0%, #1E1A30 100%);
+  background: linear-gradient(135deg, #1e1c80 0%, #161480 100%);
   border-bottom-right-radius: 6px;
   align-self: flex-end;
 }
@@ -343,7 +344,7 @@ html, body {
 
 /* ===== Glass Card ===== */
 .glass-card {
-  background: rgba(24, 24, 34, 0.5);
+  background: rgba(14, 12, 80, 0.6);
   backdrop-filter: blur(20px);
   border: 1px solid var(--color-border-subtle);
   border-radius: 20px;
@@ -362,9 +363,9 @@ html, body {
 }
 
 .gathering-pill.active {
-  background: rgba(212, 165, 116, 0.15);
-  border-color: rgba(212, 165, 116, 0.3);
-  color: var(--color-accent-gold);
+  background: rgba(3, 204, 218, 0.15);
+  border-color: rgba(3, 204, 218, 0.35);
+  color: var(--color-accent-teal);
 }
 
 .gathering-pill:not(.active) {

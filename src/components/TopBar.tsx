@@ -47,13 +47,14 @@ export default function TopBar({ title, onBack, showBack }: TopBarProps) {
             </motion.button>
           ) : null}
           <h1
-            className="text-[22px] tracking-wide"
+            className="text-[26px] tracking-wide"
             style={{
               fontFamily: 'var(--font-brand)',
-              color: title ? 'var(--color-text-primary)' : 'var(--color-accent-gold)',
+              color: 'var(--color-text-primary)',
+              fontWeight: 700,
             }}
           >
-            {title || 'Kinship'}
+            {title || 'Chat'}
           </h1>
         </div>
         <div className="flex items-center gap-2">
