@@ -7,16 +7,16 @@ import TopBar from '@/components/TopBar';
 import BottomNav, { type TabId } from '@/components/BottomNav';
 import ChatView from '@/components/chat/ChatView';
 import MediaView from '@/components/media/MediaView';
-import GamesView from '@/components/games/GamesView';
 import ShopView from '@/components/shop/ShopView';
 import VaultView from '@/components/vault/VaultView';
+import MakeView from '@/components/make/MakeView';
 
 const tabTitles: Record<TabId, string> = {
-  chat: 'Chat',
-  media: 'Flow',
-  games: 'Experience',
-  shop: 'Discover',
-  vault: 'Earn',
+  chat:    'Chat',
+  media:   'Flow',
+  explore: 'Explore',
+  vault:   'Earn',
+  make:    'Make',
 };
 
 export default function Home() {
@@ -37,11 +37,11 @@ export default function Home() {
           exit={{ opacity: 0, x: -20 }}
           transition={{ duration: 0.2 }}
         >
-          {activeTab === 'chat' && <ChatView />}
-          {activeTab === 'media' && <MediaView onOpenChat={handleSwitchToChat} />}
-          {activeTab === 'games' && <GamesView onOpenChat={handleSwitchToChat} />}
-          {activeTab === 'shop' && <ShopView onOpenChat={handleSwitchToChat} />}
-          {activeTab === 'vault' && <VaultView />}
+          {activeTab === 'chat'    && <ChatView />}
+          {activeTab === 'media'   && <MediaView onOpenChat={handleSwitchToChat} />}
+          {activeTab === 'explore' && <ShopView onOpenChat={handleSwitchToChat} />}
+          {activeTab === 'vault'   && <VaultView />}
+          {activeTab === 'make'    && <MakeView />}
         </motion.div>
       </AnimatePresence>
 

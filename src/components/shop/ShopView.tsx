@@ -117,6 +117,33 @@ const networkItems: NetworkItem[] = [
     emoji: '🎵',
     meta: 'Weekly · 33 going',
   },
+  {
+    id: 'wellness-quest',
+    type: 'Experience',
+    name: 'Wellness Quest',
+    description: 'Build your wellness sanctuary in an isometric world',
+    gradient: 'linear-gradient(135deg, #7EB8A8 0%, #2D5A4E 100%)',
+    emoji: '🏯',
+    meta: '1,243 playing',
+  },
+  {
+    id: 'mind-garden',
+    type: 'Experience',
+    name: 'Mind Garden',
+    description: 'Grow a meditative garden that reflects your practice',
+    gradient: 'linear-gradient(135deg, #A78BBA 0%, #6B4D8A 100%)',
+    emoji: '🌸',
+    meta: '892 playing · New',
+  },
+  {
+    id: 'energy-flow',
+    type: 'Experience',
+    name: 'Energy Flow',
+    description: 'Navigate energy pathways in a chakra-inspired world',
+    gradient: 'linear-gradient(135deg, #E87B6B 0%, #C0392B 100%)',
+    emoji: '⚡',
+    meta: '2,107 playing',
+  },
   // Offerings
   {
     id: 'lajit-gold',
