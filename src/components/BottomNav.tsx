@@ -1,6 +1,6 @@
 'use client';
 
-import { MessageCircle, Play, Compass, Search, Coins } from 'lucide-react';
+import { MessageCircle, Waves, Compass, Search, Coins } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export type TabId = 'chat' | 'media' | 'games' | 'shop' | 'vault';
@@ -12,7 +12,7 @@ interface BottomNavProps {
 
 const tabs: { id: TabId; label: string; Icon: typeof MessageCircle }[] = [
   { id: 'chat', label: 'Chat', Icon: MessageCircle },
-  { id: 'media', label: 'Flow', Icon: Play },
+  { id: 'media', label: 'Flow', Icon: Waves },
   { id: 'games', label: 'Experience', Icon: Compass },
   { id: 'shop', label: 'Discover', Icon: Search },
   { id: 'vault', label: 'Earn', Icon: Coins },
