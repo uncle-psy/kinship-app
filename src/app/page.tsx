@@ -10,6 +10,7 @@ import MediaView from '@/components/media/MediaView';
 import ShopView from '@/components/shop/ShopView';
 import VaultView from '@/components/vault/VaultView';
 import MakeView from '@/components/make/MakeView';
+import SettingsView from '@/components/settings/SettingsView';
 
 const tabTitles: Record<TabId, string> = {
   chat:    'Chat',
@@ -20,13 +21,14 @@ const tabTitles: Record<TabId, string> = {
 };
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<TabId>('chat');
+  const [activeTab, setActiveTab]     = useState<TabId>('chat');
+  const [showSettings, setShowSettings] = useState(false);
 
   const handleSwitchToChat = () => setActiveTab('chat');
 
   return (
     <PhoneFrame>
-      <TopBar title={tabTitles[activeTab]} />
+      <TopBar title={tabTitles[activeTab]} onOpenSettings={() => setShowSettings(true)} />
 
       <AnimatePresence mode="wait">
         <motion.div
@@ -46,6 +48,12 @@ export default function Home() {
       </AnimatePresence>
 
       <BottomNav active={activeTab} onChange={setActiveTab} />
+
+      <AnimatePresence>
+        {showSettings && (
+          <SettingsView onClose={() => setShowSettings(false)} />
+        )}
+      </AnimatePresence>
     </PhoneFrame>
   );
 }

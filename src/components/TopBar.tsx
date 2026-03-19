@@ -7,9 +7,10 @@ interface TopBarProps {
   title?: string;
   onBack?: () => void;
   showBack?: boolean;
+  onOpenSettings?: () => void;
 }
 
-export default function TopBar({ title, onBack, showBack }: TopBarProps) {
+export default function TopBar({ title, onBack, showBack, onOpenSettings }: TopBarProps) {
   return (
     <>
       {/* Status bar */}
@@ -89,6 +90,7 @@ export default function TopBar({ title, onBack, showBack }: TopBarProps) {
           </motion.button>
           <motion.button
             whileTap={{ scale: 0.9 }}
+            onClick={onOpenSettings}
             className="w-9 h-9 flex items-center justify-center rounded-full"
             style={{ background: 'var(--color-surface)' }}
           >
