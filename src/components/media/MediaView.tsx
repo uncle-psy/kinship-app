@@ -5,21 +5,18 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Play, Headphones, BookOpen, Image as ImageIcon,
   Sparkles, Send, Repeat2, ThumbsUp, ThumbsDown,
-  ChevronDown, ChevronUp, ExternalLink, Users,
+  ChevronDown, ChevronUp, ExternalLink,
   MessageCircle,
 } from 'lucide-react';
-import { gatherings, mediaItems, contacts, type MediaItem, type Contact } from '@/data/mockData';
+import { gatherings, mediaItems, type MediaItem } from '@/data/mockData';
 
 interface MediaViewProps {
   onOpenChat?: (mediaId: string) => void;
 }
 
-type MediaTab = 'feed' | 'people';
-
 export default function MediaView({ onOpenChat }: MediaViewProps) {
   const [activeGathering, setActiveGathering] = useState('all');
   const [longPressId, setLongPressId] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<MediaTab>('feed');
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const filtered = activeGathering === 'all'
@@ -47,178 +44,44 @@ export default function MediaView({ onOpenChat }: MediaViewProps) {
         style={{ width: 180, height: 180, background: 'var(--color-accent-sage)', top: -40, left: -60 }}
       />
 
-      {/* Feed / People toggle */}
-      <div className="flex gap-2 mb-4">
-        <button
-          className="flex-1 py-2 rounded-xl text-[13px] font-medium text-center transition-all"
-          style={{
-            background: activeTab === 'feed' ? 'rgba(212, 165, 116, 0.15)' : 'var(--color-surface)',
-            color: activeTab === 'feed' ? 'var(--color-accent-gold)' : 'var(--color-text-tertiary)',
-            border: activeTab === 'feed' ? '1px solid rgba(212, 165, 116, 0.3)' : '1px solid var(--color-border-subtle)',
-          }}
-          onClick={() => setActiveTab('feed')}
-        >
-          Feed
-        </button>
-        <button
-          className="flex-1 py-2 rounded-xl text-[13px] font-medium text-center flex items-center justify-center gap-1.5 transition-all"
-          style={{
-            background: activeTab === 'people' ? 'rgba(212, 165, 116, 0.15)' : 'var(--color-surface)',
-            color: activeTab === 'people' ? 'var(--color-accent-gold)' : 'var(--color-text-tertiary)',
-            border: activeTab === 'people' ? '1px solid rgba(212, 165, 116, 0.3)' : '1px solid var(--color-border-subtle)',
-          }}
-          onClick={() => setActiveTab('people')}
-        >
-          <Users size={14} />
-          People
-        </button>
-      </div>
-
-      {activeTab === 'people' ? (
-        <PeopleView />
-      ) : (
-        <>
-          {/* Gathering filters */}
-          <div className="flex gap-2 overflow-x-auto pb-4 -mx-1 px-1" style={{ scrollbarWidth: 'none' }}>
-            {gatherings.map(g => (
-              <button
-                key={g.id}
-                className={`gathering-pill ${activeGathering === g.id ? 'active' : ''}`}
-                onClick={() => setActiveGathering(g.id)}
-              >
-                <span className="mr-1.5">{g.icon}</span>
-                {g.name}
-              </button>
-            ))}
-          </div>
-
-          {/* Media feed */}
-          <div className="flex flex-col gap-4">
-            {filtered.map((item, i) => (
-              <motion.div
-                key={item.id}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.08 }}
-              >
-                <MediaCard
-                  item={item}
-                  isLongPressed={longPressId === item.id}
-                  onTouchStart={() => handleTouchStart(item.id)}
-                  onTouchEnd={handleTouchEnd}
-                  onDismissOverlay={() => setLongPressId(null)}
-                  onRemix={() => {
-                    setLongPressId(null);
-                    onOpenChat?.(item.id);
-                  }}
-                />
-              </motion.div>
-            ))}
-          </div>
-        </>
-      )}
-    </div>
-  );
-}
-
-function PeopleView() {
-  const [activeFilter, setActiveFilter] = useState<'all' | 'clan' | 'guild' | 'gathering'>('all');
-  const filters = [
-    { id: 'all' as const, label: 'All', icon: '✦' },
-    { id: 'clan' as const, label: 'Clan', icon: '🌳' },
-    { id: 'guild' as const, label: 'Guild', icon: '⚔️' },
-    { id: 'gathering' as const, label: 'Gatherings', icon: '◎' },
-  ];
-
-  const filtered = activeFilter === 'all'
-    ? contacts
-    : contacts.filter(c => c.relationship === activeFilter);
-
-  const important = filtered.filter(c => c.isImportant);
-  const others = filtered.filter(c => !c.isImportant);
-
-  return (
-    <div>
-      {/* Filter pills */}
-      <div className="flex gap-2 overflow-x-auto pb-4" style={{ scrollbarWidth: 'none' }}>
-        {filters.map(f => (
+      {/* Gathering filters */}
+      <div className="flex gap-2 overflow-x-auto pb-4 -mx-1 px-1" style={{ scrollbarWidth: 'none' }}>
+        {gatherings.map(g => (
           <button
-            key={f.id}
-            className={`gathering-pill ${activeFilter === f.id ? 'active' : ''}`}
-            onClick={() => setActiveFilter(f.id)}
+            key={g.id}
+            className={`gathering-pill ${activeGathering === g.id ? 'active' : ''}`}
+            onClick={() => setActiveGathering(g.id)}
           >
-            <span className="mr-1.5">{f.icon}</span>
-            {f.label}
+            <span className="mr-1.5">{g.icon}</span>
+            {g.name}
           </button>
         ))}
       </div>
 
-      {/* Important */}
-      {important.length > 0 && (
-        <div className="mb-4">
-          <p className="text-[11px] uppercase tracking-wider font-medium mb-2" style={{ color: 'var(--color-accent-gold)' }}>
-            ★ Important
-          </p>
-          <div className="flex flex-col gap-1">
-            {important.map(c => (
-              <ContactRow key={c.id} contact={c} />
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Others */}
-      {others.length > 0 && (
-        <div>
-          <p className="text-[11px] uppercase tracking-wider font-medium mb-2" style={{ color: 'var(--color-text-tertiary)' }}>
-            Everyone
-          </p>
-          <div className="flex flex-col gap-1">
-            {others.map(c => (
-              <ContactRow key={c.id} contact={c} />
-            ))}
-          </div>
-        </div>
-      )}
+      {/* Media feed */}
+      <div className="flex flex-col gap-4">
+        {filtered.map((item, i) => (
+          <motion.div
+            key={item.id}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.08 }}
+          >
+            <MediaCard
+              item={item}
+              isLongPressed={longPressId === item.id}
+              onTouchStart={() => handleTouchStart(item.id)}
+              onTouchEnd={handleTouchEnd}
+              onDismissOverlay={() => setLongPressId(null)}
+              onRemix={() => {
+                setLongPressId(null);
+                onOpenChat?.(item.id);
+              }}
+            />
+          </motion.div>
+        ))}
+      </div>
     </div>
-  );
-}
-
-function ContactRow({ contact }: { contact: Contact }) {
-  const relLabel = { clan: 'Clan', guild: 'Guild', gathering: 'Gathering' }[contact.relationship];
-  const typeLabel = { person: '', guide: 'Guide', group: 'Group' }[contact.type];
-
-  return (
-    <motion.button
-      className="w-full flex items-center gap-3 p-2.5 rounded-2xl text-left"
-      whileTap={{ scale: 0.98 }}
-    >
-      <div
-        className="w-10 h-10 rounded-full flex items-center justify-center text-sm flex-shrink-0"
-        style={{ background: `${contact.color}18`, border: `1.5px solid ${contact.color}40` }}
-      >
-        {contact.avatar}
-      </div>
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2">
-          <span className="font-medium text-[14px] truncate" style={{ color: 'var(--color-text-primary)' }}>
-            {contact.name}
-          </span>
-          {typeLabel && (
-            <span
-              className="text-[8px] font-bold px-1.5 py-0.5 rounded-full uppercase tracking-wider"
-              style={{ background: `${contact.color}20`, color: contact.color }}
-            >
-              {typeLabel}
-            </span>
-          )}
-        </div>
-        <p className="text-[11px]" style={{ color: 'var(--color-text-tertiary)' }}>{relLabel}</p>
-      </div>
-      {contact.isImportant && (
-        <span className="text-[14px]" style={{ color: 'var(--color-accent-gold)' }}>★</span>
-      )}
-    </motion.button>
   );
 }
 
@@ -296,7 +159,7 @@ function MediaCard({
             </div>
           )}
 
-          {/* Originator badge — always visible */}
+          {/* Originator badge */}
           <button
             className="absolute bottom-3 left-3 flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-[10px] font-medium"
             style={{ background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(10px)', color: 'rgba(255,255,255,0.85)' }}
@@ -327,16 +190,13 @@ function MediaCard({
           </h3>
           <p className="text-[12px] mb-3" style={{ color: 'var(--color-text-tertiary)' }}>{item.subtitle}</p>
 
-          {/* Actions: Send, Remix, More/Less */}
+          {/* Actions */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              {/* Send */}
               <button className="flex items-center gap-1.5 text-[12px]" style={{ color: 'var(--color-text-secondary)' }}>
                 <Send size={13} />
                 Send
               </button>
-
-              {/* Remix */}
               <button
                 className="flex items-center gap-1.5 text-[12px]"
                 style={{ color: item.remixes > 0 ? 'var(--color-accent-lavender)' : 'var(--color-text-secondary)' }}
@@ -357,7 +217,6 @@ function MediaCard({
               </button>
             </div>
 
-            {/* More / Less preference */}
             <div className="flex items-center gap-1">
               <button
                 className="w-7 h-7 rounded-full flex items-center justify-center transition-all"
@@ -365,10 +224,7 @@ function MediaCard({
                   background: preference === 'more' ? 'rgba(93, 232, 160, 0.15)' : 'transparent',
                   color: preference === 'more' ? 'var(--color-success)' : 'var(--color-text-tertiary)',
                 }}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setPreference(preference === 'more' ? null : 'more');
-                }}
+                onClick={(e) => { e.stopPropagation(); setPreference(preference === 'more' ? null : 'more'); }}
               >
                 <ThumbsUp size={13} />
               </button>
@@ -378,10 +234,7 @@ function MediaCard({
                   background: preference === 'less' ? 'rgba(232, 93, 93, 0.15)' : 'transparent',
                   color: preference === 'less' ? 'var(--color-danger)' : 'var(--color-text-tertiary)',
                 }}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setPreference(preference === 'less' ? null : 'less');
-                }}
+                onClick={(e) => { e.stopPropagation(); setPreference(preference === 'less' ? null : 'less'); }}
               >
                 <ThumbsDown size={13} />
               </button>
@@ -406,12 +259,8 @@ function MediaCard({
                       <div key={i} className="flex items-center gap-2">
                         <span className="text-[12px]">{r.avatar}</span>
                         <div className="flex-1 min-w-0">
-                          <span className="text-[11px] font-medium" style={{ color: 'var(--color-text-primary)' }}>
-                            {r.name}
-                          </span>
-                          <span className="text-[11px] ml-1" style={{ color: 'var(--color-text-tertiary)' }}>
-                            — {r.action}
-                          </span>
+                          <span className="text-[11px] font-medium" style={{ color: 'var(--color-text-primary)' }}>{r.name}</span>
+                          <span className="text-[11px] ml-1" style={{ color: 'var(--color-text-tertiary)' }}>— {r.action}</span>
                         </div>
                       </div>
                     ))}

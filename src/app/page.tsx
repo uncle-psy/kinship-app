@@ -14,7 +14,7 @@ import VaultView from '@/components/vault/VaultView';
 const tabTitles: Record<TabId, string> = {
   chat: 'Chat',
   media: 'Flow',
-  games: 'Experiences',
+  games: 'Experience',
   shop: 'Discover',
   vault: 'Earn',
 };
