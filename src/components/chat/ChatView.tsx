@@ -45,7 +45,7 @@ export default function ChatView() {
       >
         <Sparkles size={16} style={{ color: 'var(--color-accent-gold)' }} />
         <span className="text-sm" style={{ color: 'var(--color-text-tertiary)' }}>
-          Ask anything...
+          Ask for anything...
         </span>
       </div>
 
