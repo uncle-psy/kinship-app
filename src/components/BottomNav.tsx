@@ -14,8 +14,8 @@ const tabs: { id: TabId; label: string; Icon: typeof MessageCircle }[] = [
   { id: 'chat',    label: 'Chat',    Icon: MessageCircle },
   { id: 'media',   label: 'Flow',    Icon: Waves },
   { id: 'explore', label: 'Explore', Icon: Compass },
-  { id: 'vault',   label: 'Earn',    Icon: Coins },
   { id: 'make',    label: 'Make',    Icon: Wand2 },
+  { id: 'vault',   label: 'Earn',    Icon: Coins },
 ];
 
 export default function BottomNav({ active, onChange }: BottomNavProps) {
