@@ -1,6 +1,6 @@
 'use client';
 
-import { Bell, Settings, Radio } from 'lucide-react';
+import { Bell, Settings, Trophy, Users } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface TopBarProps {
@@ -8,9 +8,20 @@ interface TopBarProps {
   onBack?: () => void;
   showBack?: boolean;
   onOpenSettings?: () => void;
+  onOpenLeaderboard?: () => void;
+  onOpenNotifications?: () => void;
+  onOpenMembers?: () => void;
 }
 
-export default function TopBar({ title, onBack, showBack, onOpenSettings }: TopBarProps) {
+export default function TopBar({
+  title,
+  onBack,
+  showBack,
+  onOpenSettings,
+  onOpenLeaderboard,
+  onOpenNotifications,
+  onOpenMembers,
+}: TopBarProps) {
   return (
     <>
       {/* Status bar */}
@@ -59,24 +70,28 @@ export default function TopBar({ title, onBack, showBack, onOpenSettings }: TopB
           </h1>
         </div>
         <div className="flex items-center gap-2">
+          {/* Members */}
           <motion.button
             whileTap={{ scale: 0.9 }}
+            onClick={onOpenMembers}
+            className="w-9 h-9 flex items-center justify-center rounded-full"
+            style={{ background: 'var(--color-surface)' }}
+          >
+            <Users size={16} style={{ color: 'var(--color-text-secondary)' }} />
+          </motion.button>
+          {/* Leaderboard (Trophy) */}
+          <motion.button
+            whileTap={{ scale: 0.9 }}
+            onClick={onOpenLeaderboard}
             className="relative w-9 h-9 flex items-center justify-center rounded-full"
             style={{ background: 'var(--color-surface)' }}
           >
-            <Radio size={16} style={{ color: 'var(--color-accent-sage)' }} />
-            {/* Vibes pulse indicator */}
-            <span
-              className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 rounded-full flex items-center justify-center"
-              style={{
-                background: 'var(--color-accent-sage)',
-                boxShadow: '0 0 8px var(--color-accent-sage)',
-                animation: 'pulse-slow 3s ease-in-out infinite',
-              }}
-            />
+            <Trophy size={16} style={{ color: 'var(--color-accent-gold)' }} />
           </motion.button>
+          {/* Notifications */}
           <motion.button
             whileTap={{ scale: 0.9 }}
+            onClick={onOpenNotifications}
             className="relative w-9 h-9 flex items-center justify-center rounded-full"
             style={{ background: 'var(--color-surface)' }}
           >
@@ -88,6 +103,7 @@ export default function TopBar({ title, onBack, showBack, onOpenSettings }: TopB
               3
             </span>
           </motion.button>
+          {/* Settings */}
           <motion.button
             whileTap={{ scale: 0.9 }}
             onClick={onOpenSettings}

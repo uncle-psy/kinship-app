@@ -56,10 +56,10 @@ const TIERS: {
   id: MembershipTier; label: string; monthly: number;
   annual: number; desc: string; color: string;
 }[] = [
-  { id: 'guest',    label: 'Guest',    monthly: 0,     annual: 0,      desc: 'Basic access',           color: 'rgba(255,255,255,0.35)' },
-  { id: 'member',   label: 'Member',   monthly: 10,    annual: 100,    desc: 'Full community',         color: '#03CCDA' },
-  { id: 'project',  label: 'Project',  monthly: 100,   annual: 1000,   desc: 'Build & publish',        color: '#FFCA00' },
-  { id: 'platform', label: 'Platform', monthly: 1000,  annual: 10000,  desc: 'Full platform access',   color: '#EC008C' },
+  { id: 'guest',    label: 'Guest',    monthly: 0,     annual: 0,      desc: 'Browse & observe',       color: 'rgba(255,255,255,0.35)' },
+  { id: 'member',   label: 'Member',   monthly: 10,    annual: 100,    desc: 'Vote, earn & participate', color: '#03CCDA' },
+  { id: 'project',  label: 'Project',  monthly: 100,   annual: 1000,   desc: 'Launch a DUNA',          color: '#FFCA00' },
+  { id: 'platform', label: 'Platform', monthly: 1000,  annual: 10000,  desc: 'Full platform operator',  color: '#EC008C' },
 ];
 
 // ── Validation ────────────────────────────────────────────────────────────────

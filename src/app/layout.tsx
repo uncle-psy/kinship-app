@@ -2,8 +2,8 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Kinship Today",
-  description: "The AI-mediated wellness community",
+  title: "Kinship Agents",
+  description: "Agentic DUNA Futarchy Governance — cross-optimizing for value creation and planetary flourishing",
 };
 
 export const viewport: Viewport = {
