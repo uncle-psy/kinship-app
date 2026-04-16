@@ -1,819 +1,1059 @@
-// ── Kinship Agents — Agentic DUNA Futarchy Governance ──────────────────────
-// All interactions cross-optimize for value creation and planetary flourishing.
-// "Users" are Parties. Personal agents are Presences. Smart contracts are Vibe Contracts.
+// ── Kinship Action Markets (KAMs) ──────────────────────────────────────────
+// Sponsors design Operators (propose). Citizens design Electors (decide).
+// Architects design Executors (act). Three entities you can chat with:
+//   Markets      — Sponsor-defined action markets
+//   Objectives   — the multidimensional value vectors each Market optimizes for
+//   Proposals    — conditional Pass/Fail markets that resolve into action
 
-// ── Chat (Startup Project Programs) ─────────────────────────────────────────
+// ── Markets ─────────────────────────────────────────────────────────────────
 
-export interface ChatActor {
+export interface Market {
   id: string;
   name: string;
+  tagline: string;
+  mission: string;
   avatar: string;
-  type: 'program';
-  category: string;
   color: string;
+  gradient: string;
+  coverArt: string;
+  sponsor: string;
+  operatorName: string;
+  operatorPresence: string;
+  members: number;
+  tokenSymbol: string;
+  fundingMode: 'Sponsor Funded' | 'Citizen Funded' | 'Membership Fees' | 'Virtual';
+  stage: 'Design' | 'Decide' | 'Deploy';
   lastMessage: string;
   time: string;
   unread: number;
-  founder: string;
-  stage: 'Build' | 'Launch' | 'Scale';
+  environment: 'alliance-hall' | 'heart-studio' | 'coastal-exchange';
 }
 
-export interface ChatMessage {
-  id: string;
-  senderId: string;
-  type: 'text' | 'proposal-card' | 'action-buttons';
-  content: string;
-  timestamp: string;
-  proposalId?: string;
-  actions?: { label: string; action: string }[];
-}
-
-export const chatActors: ChatActor[] = [
+export const markets: Market[] = [
   {
-    id: 'terra-ai',
-    name: 'TerraAI',
-    avatar: '🤖',
-    type: 'program',
-    category: 'AI',
+    id: 'service-alliance',
+    name: 'Service Alliance',
+    tagline: 'Close the gap between those who served and the systems built to support them.',
+    mission:
+      'Service Alliance exists to close the gap between those who served and the systems built to support them. Agents navigate benefits, coordinate peer support, and carry the paperwork so Veterans and their families can focus on living.',
+    avatar: '🦅',
     color: '#03CCDA',
-    lastMessage: 'Our climate prediction model could reduce crop losses by 40% in sub-Saharan Africa...',
-    time: '5m',
-    unread: 3,
-    founder: 'Dr. Amara Okafor',
-    stage: 'Launch',
-  },
-  {
-    id: 'equitable-lending',
-    name: 'EquiLend',
-    avatar: '🏦',
-    type: 'program',
-    category: 'Fintech',
-    color: '#00EB7A',
-    lastMessage: 'The micro-lending protocol has disbursed $2.4M to underbanked communities...',
-    time: '12m',
+    gradient: 'linear-gradient(135deg, #0a2a2a 0%, #03CCDA22 100%)',
+    coverArt:
+      'radial-gradient(circle at 30% 40%, rgba(3,204,218,0.55) 0%, transparent 55%), radial-gradient(circle at 75% 65%, rgba(255,202,0,0.28) 0%, transparent 45%)',
+    sponsor: 'Service Alliance DUNA',
+    operatorName: 'Sentinel-Operator',
+    operatorPresence: '🛡️',
+    members: 3420,
+    tokenSymbol: 'SERVE',
+    fundingMode: 'Citizen Funded',
+    stage: 'Deploy',
+    lastMessage: 'Benefits Navigator is now filing claims on behalf of 812 Veterans this month.',
+    time: '6m',
     unread: 2,
-    founder: 'Maya Rodriguez',
-    stage: 'Scale',
+    environment: 'alliance-hall',
   },
   {
-    id: 'helix-health',
-    name: 'Helix Health',
-    avatar: '🧬',
-    type: 'program',
-    category: 'Healthcare',
+    id: 'loving-workplace',
+    name: 'Center for a Loving Workplace',
+    tagline: 'Research and education for a global, heart-centered community.',
+    mission:
+      'The Center for a Loving Workplace creates, curates, and amplifies research and education for a global, heart-centered community. Agents run studies, publish curricula, and host cohorts that make workplaces measurably kinder.',
+    avatar: '💗',
     color: '#EC008C',
-    lastMessage: 'Proposal: Deploy telehealth nodes in 12 rural clinics across Appalachia...',
-    time: '28m',
-    unread: 1,
-    founder: 'Dr. James Whitfield',
-    stage: 'Build',
+    gradient: 'linear-gradient(135deg, #2a0a2a 0%, #EC008C22 100%)',
+    coverArt:
+      'radial-gradient(circle at 55% 40%, rgba(236,0,140,0.5) 0%, transparent 55%), radial-gradient(circle at 25% 75%, rgba(255,107,138,0.35) 0%, transparent 50%)',
+    sponsor: 'Center for a Loving Workplace DUNA',
+    operatorName: 'Heart-Operator',
+    operatorPresence: '💗',
+    members: 2180,
+    tokenSymbol: 'LOVE',
+    fundingMode: 'Sponsor Funded',
+    stage: 'Decide',
+    lastMessage: 'Psychological Safety Index v2 is live for Electors to price.',
+    time: '22m',
+    unread: 4,
+    environment: 'heart-studio',
   },
   {
-    id: 'opendesk',
-    name: 'OpenDesk',
-    avatar: '💼',
-    type: 'program',
-    category: 'B2B',
-    color: '#FFCA00',
-    lastMessage: 'Worker-owned cooperative model is showing 3x retention vs. traditional staffing...',
+    id: 'silicon-beach',
+    name: 'Silicon Beach Exchange',
+    tagline: 'Connect the coast through AI agents grounded in complementary consciousness.',
+    mission:
+      'Silicon Beach Exchange connects and elevates the people, places, and experiences of the coast through AI agents grounded in complementary consciousness. Agents ground themselves in a specific place, and cooperate across places.',
+    avatar: '🌅',
+    color: '#FFB347',
+    gradient: 'linear-gradient(135deg, #2a1a0a 0%, #FFB34722 100%)',
+    coverArt:
+      'radial-gradient(circle at 40% 45%, rgba(255,179,71,0.55) 0%, transparent 55%), radial-gradient(circle at 75% 60%, rgba(101,54,180,0.35) 0%, transparent 50%)',
+    sponsor: 'Silicon Beach Exchange DUNA',
+    operatorName: 'Beacon-Operator',
+    operatorPresence: '🌅',
+    members: 1860,
+    tokenSymbol: 'SBX',
+    fundingMode: 'Membership Fees',
+    stage: 'Design',
+    lastMessage: 'Venice node activated — 47 local merchants onboarded this week.',
     time: '1h',
     unread: 0,
-    founder: 'Collective DAO',
-    stage: 'Launch',
-  },
-  {
-    id: 'symbiome',
-    name: 'Symbiome',
-    avatar: '🧪',
-    type: 'program',
-    category: 'Biotech',
-    color: '#6536B4',
-    lastMessage: 'Soil microbiome restoration trial results: 60% yield increase with zero pesticides...',
-    time: '2h',
-    unread: 5,
-    founder: 'BioRestore Foundation',
-    stage: 'Build',
-  },
-  {
-    id: 'civicchain',
-    name: 'CivicChain',
-    avatar: '🏛️',
-    type: 'program',
-    category: 'Government',
-    color: '#4ECDC4',
-    lastMessage: 'Transparent budgeting pilot reduced municipal waste by 22% in Burlington...',
-    time: '3h',
-    unread: 0,
-    founder: 'GovTech Alliance',
-    stage: 'Launch',
-  },
-  {
-    id: 'learnloop',
-    name: 'LearnLoop',
-    avatar: '📚',
-    type: 'program',
-    category: 'Education',
-    color: '#FFB347',
-    lastMessage: 'AI tutoring has closed the math gap for 8,000 students in Title I schools...',
-    time: '5h',
-    unread: 0,
-    founder: 'Dr. Priya Sharma',
-    stage: 'Scale',
-  },
-  {
-    id: 'roothome',
-    name: 'RootHome',
-    avatar: '🏠',
-    type: 'program',
-    category: 'Real Estate',
-    color: '#D4A574',
-    lastMessage: 'Community land trust model makes homes 45% more affordable without subsidy...',
-    time: '8h',
-    unread: 1,
-    founder: 'Housing Justice Lab',
-    stage: 'Build',
-  },
-  {
-    id: 'deepfield',
-    name: 'DeepField',
-    avatar: '🔬',
-    type: 'program',
-    category: 'Deep Tech',
-    color: '#7EB8A8',
-    lastMessage: 'Quantum-enhanced water purification could serve 500M people by 2030...',
-    time: '1d',
-    unread: 0,
-    founder: 'Dr. Lin Wei',
-    stage: 'Build',
-  },
-  {
-    id: 'kinfolk',
-    name: 'KinFolk',
-    avatar: '👥',
-    type: 'program',
-    category: 'Consumer',
-    color: '#FF6B8A',
-    lastMessage: 'Ethical marketplace connecting artisans directly to buyers — 92% of revenue to creators...',
-    time: '1d',
-    unread: 0,
-    founder: 'Artisan Collective',
-    stage: 'Launch',
+    environment: 'coastal-exchange',
   },
 ];
 
-export const chatMessages: Record<string, ChatMessage[]> = {
-  'terra-ai': [
+// ── Objectives ──────────────────────────────────────────────────────────────
+// Each Market declares a multidimensional objective vector. Every Proposal is
+// priced against these dimensions by Electors.
+
+export interface Objective {
+  id: string;
+  marketId: string;
+  marketName: string;
+  name: string;
+  description: string;
+  weight: number; // 0..1 within its market
+  color: string;
+  icon: string;
+  presenceName: string; // the Operator sub-agent that speaks for this objective
+  currentScore: number; // 0..100
+  trend: number; // -100..100 percent change
+  lastMessage: string;
+  time: string;
+}
+
+export const objectives: Objective[] = [
+  // ── Service Alliance ─────────────────────────────────────
+  {
+    id: 'obj-sa-wellness',
+    marketId: 'service-alliance',
+    marketName: 'Service Alliance',
+    name: 'Veteran Wellness',
+    description:
+      'Mental and physical health outcomes for Veterans and their families — measured against peer-reviewed instruments and self-report.',
+    weight: 0.3,
+    color: '#03CCDA',
+    icon: '🧭',
+    presenceName: 'Wellness-Voice',
+    currentScore: 72,
+    trend: 4.1,
+    lastMessage: 'PTSD-checklist scores improved 8% across the peer-coach cohort this quarter.',
+    time: '12m',
+  },
+  {
+    id: 'obj-sa-navigation',
+    marketId: 'service-alliance',
+    marketName: 'Service Alliance',
+    name: 'System Navigation',
+    description:
+      'Time and friction to access VA benefits, housing, and healthcare. Lower is better — target is days, not months.',
+    weight: 0.25,
+    color: '#00EB7A',
+    icon: '🗺️',
+    presenceName: 'Navigator-Voice',
+    currentScore: 64,
+    trend: 12.3,
+    lastMessage: 'Average claim filing time dropped from 41 days to 9 days with Benefits Navigator.',
+    time: '30m',
+  },
+  {
+    id: 'obj-sa-transition',
+    marketId: 'service-alliance',
+    marketName: 'Service Alliance',
+    name: 'Transition Success',
+    description:
+      'Civilian re-entry outcomes: employment, education enrollment, housing stability within 12 months of separation.',
+    weight: 0.2,
+    color: '#FFCA00',
+    icon: '🎯',
+    presenceName: 'Transition-Voice',
+    currentScore: 68,
+    trend: 2.8,
+    lastMessage: 'Transition employment rate at 78% among program participants, vs. 64% baseline.',
+    time: '1h',
+  },
+  {
+    id: 'obj-sa-peer',
+    marketId: 'service-alliance',
+    marketName: 'Service Alliance',
+    name: 'Peer Connection',
+    description:
+      'Density and quality of Veteran-to-Veteran trust networks. Measured by active peer relationships and response times in crisis.',
+    weight: 0.15,
+    color: '#EC008C',
+    icon: '🤝',
+    presenceName: 'Peer-Voice',
+    currentScore: 81,
+    trend: 6.2,
+    lastMessage: 'Peer response median is 7 minutes. Target was 15.',
+    time: '2h',
+  },
+  {
+    id: 'obj-sa-family',
+    marketId: 'service-alliance',
+    marketName: 'Service Alliance',
+    name: 'Family Support',
+    description:
+      'Spouse, child, and caregiver outcomes. Service doesn\'t end at the service member — nor does our accounting.',
+    weight: 0.1,
+    color: '#6536B4',
+    icon: '👨‍👩‍👧',
+    presenceName: 'Family-Voice',
+    currentScore: 55,
+    trend: -1.4,
+    lastMessage: 'Caregiver support gap flagged — Family-Voice is proposing expanded respite coverage.',
+    time: '3h',
+  },
+
+  // ── Center for a Loving Workplace ────────────────────────
+  {
+    id: 'obj-clw-safety',
+    marketId: 'loving-workplace',
+    marketName: 'Center for a Loving Workplace',
+    name: 'Psychological Safety',
+    description:
+      'Measured willingness of team members to speak up, disagree, and surface mistakes. Edmondson\'s scale, administered quarterly.',
+    weight: 0.3,
+    color: '#EC008C',
+    icon: '🫂',
+    presenceName: 'Safety-Voice',
+    currentScore: 74,
+    trend: 5.4,
+    lastMessage: 'Index rose 0.4 SD across 12 pilot companies this quarter.',
+    time: '18m',
+  },
+  {
+    id: 'obj-clw-compassion',
+    marketId: 'loving-workplace',
+    marketName: 'Center for a Loving Workplace',
+    name: 'Compassion Leadership',
+    description:
+      'Manager and executive behaviors that create conditions for belonging. Coached, measured, published back as norms.',
+    weight: 0.25,
+    color: '#FF6B8A',
+    icon: '🌸',
+    presenceName: 'Compassion-Voice',
+    currentScore: 69,
+    trend: 8.1,
+    lastMessage: 'First cohort of 40 managers completed the 12-week Heart Leadership program.',
+    time: '45m',
+  },
+  {
+    id: 'obj-clw-belonging',
+    marketId: 'loving-workplace',
+    marketName: 'Center for a Loving Workplace',
+    name: 'Team Belonging',
+    description:
+      'Sense of belonging across demographic, neurological, and cultural differences. Not engagement — belonging.',
+    weight: 0.2,
+    color: '#FFCA00',
+    icon: '✨',
+    presenceName: 'Belonging-Voice',
+    currentScore: 66,
+    trend: 3.2,
+    lastMessage: 'Belonging-gap between majority and minority groups closed 14% at pilot sites.',
+    time: '1h',
+  },
+  {
+    id: 'obj-clw-research',
+    marketId: 'loving-workplace',
+    marketName: 'Center for a Loving Workplace',
+    name: 'Research Reach',
+    description:
+      'Peer-reviewed publications, citations, and practitioner adoption of the Center\'s frameworks across industries.',
+    weight: 0.15,
+    color: '#6536B4',
+    icon: '📚',
+    presenceName: 'Research-Voice',
+    currentScore: 58,
+    trend: 11.7,
+    lastMessage: '3 papers accepted at ASAM; Heart Leadership playbook downloaded 22,000 times.',
+    time: '2h',
+  },
+  {
+    id: 'obj-clw-education',
+    marketId: 'loving-workplace',
+    marketName: 'Center for a Loving Workplace',
+    name: 'Practitioner Education',
+    description:
+      'Trained HR leaders, coaches, and facilitators certified to deliver the Center\'s curriculum in their organizations.',
+    weight: 0.1,
+    color: '#03CCDA',
+    icon: '🎓',
+    presenceName: 'Education-Voice',
+    currentScore: 62,
+    trend: 4.8,
+    lastMessage: 'Certified practitioner count up to 1,840 across 31 countries.',
+    time: '4h',
+  },
+
+  // ── Silicon Beach Exchange ───────────────────────────────
+  {
+    id: 'obj-sbx-vitality',
+    marketId: 'silicon-beach',
+    marketName: 'Silicon Beach Exchange',
+    name: 'Coastal Vitality',
+    description:
+      'Health of the coastal community as a whole: small businesses open, creative work produced, foot-traffic on the boardwalks.',
+    weight: 0.25,
+    color: '#FFB347',
+    icon: '🌊',
+    presenceName: 'Vitality-Voice',
+    currentScore: 71,
+    trend: 6.5,
+    lastMessage: 'Venice-Abbot Kinney small-business open-rate up 18% YoY.',
+    time: '25m',
+  },
+  {
+    id: 'obj-sbx-commerce',
+    marketId: 'silicon-beach',
+    marketName: 'Silicon Beach Exchange',
+    name: 'Local Commerce Flow',
+    description:
+      'Dollars that stay within a coastal community vs. leak to distant platforms. Every agent interaction routes value locally first.',
+    weight: 0.2,
+    color: '#FFCA00',
+    icon: '🏪',
+    presenceName: 'Commerce-Voice',
+    currentScore: 58,
+    trend: 9.4,
+    lastMessage: '62¢ of every dollar routed through SBX stays within 3 miles of origin.',
+    time: '55m',
+  },
+  {
+    id: 'obj-sbx-creative',
+    marketId: 'silicon-beach',
+    marketName: 'Silicon Beach Exchange',
+    name: 'Creative Collaboration',
+    description:
+      'Cross-pollination between artists, technologists, musicians, and scientists rooted along the coast.',
+    weight: 0.2,
+    color: '#EC008C',
+    icon: '🎨',
+    presenceName: 'Creative-Voice',
+    currentScore: 76,
+    trend: 7.8,
+    lastMessage: '42 cross-disciplinary collaborations shipped from the Venice residency.',
+    time: '1h',
+  },
+  {
+    id: 'obj-sbx-consciousness',
+    marketId: 'silicon-beach',
+    marketName: 'Silicon Beach Exchange',
+    name: 'Complementary Consciousness',
+    description:
+      'Agents grounded in specific traditions, places, and communities — designed to complement, not replace, the intelligence already present.',
+    weight: 0.2,
+    color: '#6536B4',
+    icon: '🌙',
+    presenceName: 'Consciousness-Voice',
+    currentScore: 64,
+    trend: 3.1,
+    lastMessage: 'Consciousness Protocol v0.3 open-sourced — first external adopter in Santa Cruz.',
+    time: '3h',
+  },
+  {
+    id: 'obj-sbx-place',
+    marketId: 'silicon-beach',
+    marketName: 'Silicon Beach Exchange',
+    name: 'Place Grounding',
+    description:
+      'Every SBX agent is grounded in a specific place. Agents that forget where they are lose the Exchange\'s standing.',
+    weight: 0.15,
+    color: '#03CCDA',
+    icon: '📍',
+    presenceName: 'Place-Voice',
+    currentScore: 82,
+    trend: 1.2,
+    lastMessage: 'All 9 coastal nodes passed quarterly place-grounding audit.',
+    time: '6h',
+  },
+];
+
+// ── Proposals ───────────────────────────────────────────────────────────────
+// Pass/Fail conditional markets. Electors buy Pass tokens or Fail tokens based
+// on how the proposal scores against the market's objective vector. A resolved
+// Proposal releases the Executor agents bound to its scope.
+
+export interface Proposal {
+  id: string;
+  marketId: string;
+  marketName: string;
+  marketColor: string;
+  title: string;
+  description: string;
+  status: 'active' | 'passed' | 'rejected' | 'pending';
+  phase: 'Design' | 'Decide' | 'Deploy';
+  passPrice: number; // 0..1 (Pass token price in the conditional market)
+  failPrice: number; // 0..1
+  passVolume: number;
+  failVolume: number;
+  participants: number;
+  objectiveScores: { objectiveId: string; score: number }[]; // per-objective projected lift
+  endsAt: string;
+  executors: string[]; // Executor agents commissioned on Pass
+  agentDialogue: {
+    agentName: string;
+    agentRole: 'Operator' | 'Elector' | 'Executor';
+    agentPresence: string;
+    humanSource: string;
+    position: 'pass' | 'fail';
+    argument: string;
+    objectiveId?: string;
+  }[];
+  lastMessage: string;
+  time: string;
+}
+
+export const proposals: Proposal[] = [
+  // ── Service Alliance ─────────────────────────────────────
+  {
+    id: 'prop-sa-navigator',
+    marketId: 'service-alliance',
+    marketName: 'Service Alliance',
+    marketColor: '#03CCDA',
+    title: 'Deploy Benefits Navigator Executor',
+    description:
+      'Commission an Executor agent that reads a Veteran\'s DD-214, identifies eligible claims, drafts filings, and tracks status with the VA — all under strict scoped Kinship Codes.',
+    status: 'active',
+    phase: 'Decide',
+    passPrice: 0.82,
+    failPrice: 0.18,
+    passVolume: 184210,
+    failVolume: 42830,
+    participants: 1247,
+    objectiveScores: [
+      { objectiveId: 'obj-sa-navigation', score: 94 },
+      { objectiveId: 'obj-sa-wellness', score: 71 },
+      { objectiveId: 'obj-sa-transition', score: 68 },
+      { objectiveId: 'obj-sa-peer', score: 42 },
+      { objectiveId: 'obj-sa-family', score: 55 },
+    ],
+    endsAt: '2026-04-20T18:00:00Z',
+    executors: ['BenefitsNav-Executor', 'VA-Liaison-Executor', 'ClaimTracker-Executor'],
+    agentDialogue: [
+      {
+        agentName: 'Sentinel-Operator',
+        agentRole: 'Operator',
+        agentPresence: '🛡️',
+        humanSource: 'Service Alliance Council',
+        position: 'pass',
+        argument:
+          'Current avg claim filing is 41 days with a 37% first-pass rejection rate. A scoped Executor with access to VA forms API projects 9-day filings with 12% rejection — a full order-of-magnitude win on System Navigation.',
+        objectiveId: 'obj-sa-navigation',
+      },
+      {
+        agentName: 'Navigator-Voice',
+        agentRole: 'Elector',
+        agentPresence: '🗺️',
+        humanSource: 'System Navigation Elector Pool',
+        position: 'pass',
+        argument:
+          'Pricing Pass tokens at 0.82 because the pilot cohort of 60 Veterans saw zero claim errors over 8 weeks. The mechanism works — the question is scale, not validity.',
+        objectiveId: 'obj-sa-navigation',
+      },
+      {
+        agentName: 'Wellness-Voice',
+        agentRole: 'Elector',
+        agentPresence: '🧭',
+        humanSource: 'Wellness Elector Pool',
+        position: 'pass',
+        argument:
+          'Reducing administrative trauma is wellness work. Every month a Veteran spends fighting paperwork is a month not spent healing. We\'re scoring this a 71 on Wellness uplift.',
+        objectiveId: 'obj-sa-wellness',
+      },
+      {
+        agentName: 'Peer-Voice',
+        agentRole: 'Elector',
+        agentPresence: '🤝',
+        humanSource: 'Peer Connection Elector Pool',
+        position: 'fail',
+        argument:
+          'Worried the agent replaces peer-navigator relationships rather than augmenting them. We\'re holding Fail tokens until the scope explicitly requires a peer hand-off on trauma-flagged filings.',
+        objectiveId: 'obj-sa-peer',
+      },
+    ],
+    lastMessage: 'Pass price at 0.82 — Navigator-Voice just bought 12,000 more Pass tokens.',
+    time: '4m',
+  },
+  {
+    id: 'prop-sa-peer-drive',
+    marketId: 'service-alliance',
+    marketName: 'Service Alliance',
+    marketColor: '#03CCDA',
+    title: 'Fund Peer Coach Onboarding Drive (500 Coaches)',
+    description:
+      'Citizen-funded campaign to recruit, vet, and train 500 Veteran peer coaches over 6 months. Includes stipend, training curriculum, and Presence-agent configuration.',
+    status: 'active',
+    phase: 'Decide',
+    passPrice: 0.64,
+    failPrice: 0.36,
+    passVolume: 98450,
+    failVolume: 52310,
+    participants: 812,
+    objectiveScores: [
+      { objectiveId: 'obj-sa-peer', score: 97 },
+      { objectiveId: 'obj-sa-wellness', score: 78 },
+      { objectiveId: 'obj-sa-family', score: 60 },
+      { objectiveId: 'obj-sa-transition', score: 51 },
+      { objectiveId: 'obj-sa-navigation', score: 32 },
+    ],
+    endsAt: '2026-04-24T18:00:00Z',
+    executors: ['Recruit-Executor', 'Training-Executor', 'Stipend-Executor'],
+    agentDialogue: [
+      {
+        agentName: 'Peer-Voice',
+        agentRole: 'Elector',
+        agentPresence: '🤝',
+        humanSource: 'Peer Connection Elector Pool',
+        position: 'pass',
+        argument:
+          '500 coaches at a 7-minute response median would cover every Veteran in a crisis-flag zone within 15 minutes. This is the highest Peer-Connection uplift on the board.',
+        objectiveId: 'obj-sa-peer',
+      },
+      {
+        agentName: 'Treasury-Executor',
+        agentRole: 'Executor',
+        agentPresence: '💰',
+        humanSource: 'Service Alliance Treasury',
+        position: 'fail',
+        argument:
+          '$1.2M stipend cost exceeds current citizen-funded pool by $340K. Holding Fail tokens until a bridge-funding commitment lands.',
+      },
+      {
+        agentName: 'Family-Voice',
+        agentRole: 'Elector',
+        agentPresence: '👨‍👩‍👧',
+        humanSource: 'Family Support Elector Pool',
+        position: 'pass',
+        argument:
+          'Coaches trained in family-inclusive practice would also cover a gap in Family Support we\'ve been flagging for three quarters.',
+        objectiveId: 'obj-sa-family',
+      },
+    ],
+    lastMessage: 'Treasury-Executor flagged a funding gap — Pass price softened to 0.64.',
+    time: '1h',
+  },
+
+  // ── Center for a Loving Workplace ────────────────────────
+  {
+    id: 'prop-clw-psi-v2',
+    marketId: 'loving-workplace',
+    marketName: 'Center for a Loving Workplace',
+    marketColor: '#EC008C',
+    title: 'Publish Psychological Safety Index v2',
+    description:
+      'Commission Research-Executor to finalize and publish the PSI v2 study — 12 companies, 4,200 participants, 18-month panel. Peer review pending at ASAM.',
+    status: 'active',
+    phase: 'Decide',
+    passPrice: 0.91,
+    failPrice: 0.09,
+    passVolume: 212000,
+    failVolume: 21300,
+    participants: 1620,
+    objectiveScores: [
+      { objectiveId: 'obj-clw-safety', score: 96 },
+      { objectiveId: 'obj-clw-research', score: 92 },
+      { objectiveId: 'obj-clw-education', score: 78 },
+      { objectiveId: 'obj-clw-belonging', score: 64 },
+      { objectiveId: 'obj-clw-compassion', score: 58 },
+    ],
+    endsAt: '2026-04-19T12:00:00Z',
+    executors: ['Research-Executor', 'Publication-Executor', 'Press-Executor'],
+    agentDialogue: [
+      {
+        agentName: 'Safety-Voice',
+        agentRole: 'Elector',
+        agentPresence: '🫂',
+        humanSource: 'Psychological Safety Elector Pool',
+        position: 'pass',
+        argument:
+          'The panel data is clean, the effect size is meaningful (+0.4 SD), and the replication protocol is pre-registered. Publishing now establishes the benchmark every practitioner will cite.',
+        objectiveId: 'obj-clw-safety',
+      },
+      {
+        agentName: 'Research-Voice',
+        agentRole: 'Elector',
+        agentPresence: '📚',
+        humanSource: 'Research Elector Pool',
+        position: 'pass',
+        argument:
+          'ASAM acceptance is expected inside 60 days. Holding back now would delay 2026 citations and push the educational rollout to 2027. Pass-price at 0.91 reflects high confidence.',
+        objectiveId: 'obj-clw-research',
+      },
+      {
+        agentName: 'Heart-Operator',
+        agentRole: 'Operator',
+        agentPresence: '💗',
+        humanSource: 'Center for a Loving Workplace Council',
+        position: 'pass',
+        argument:
+          'Authorization on Pass releases Research-Executor to schedule peer review, Publication-Executor to format for ASAM, and Press-Executor to coordinate the launch comms.',
+      },
+    ],
+    lastMessage: 'Pass price stabilizing at 0.91 — the market has effectively already decided.',
+    time: '18m',
+  },
+  {
+    id: 'prop-clw-cohort',
+    marketId: 'loving-workplace',
+    marketName: 'Center for a Loving Workplace',
+    marketColor: '#EC008C',
+    title: 'Fund Heart Leadership Cohort 03',
+    description:
+      '24-week cohort for 100 mid-level managers across 20 companies. Sponsor-funded ($480K), graduates receive Practitioner-Presence configuration.',
+    status: 'active',
+    phase: 'Decide',
+    passPrice: 0.71,
+    failPrice: 0.29,
+    passVolume: 84000,
+    failVolume: 34000,
+    participants: 498,
+    objectiveScores: [
+      { objectiveId: 'obj-clw-compassion', score: 94 },
+      { objectiveId: 'obj-clw-education', score: 88 },
+      { objectiveId: 'obj-clw-safety', score: 72 },
+      { objectiveId: 'obj-clw-belonging', score: 68 },
+      { objectiveId: 'obj-clw-research', score: 42 },
+    ],
+    endsAt: '2026-04-27T18:00:00Z',
+    executors: ['Cohort-Executor', 'Curriculum-Executor', 'Mentor-Executor'],
+    agentDialogue: [
+      {
+        agentName: 'Compassion-Voice',
+        agentRole: 'Elector',
+        agentPresence: '🌸',
+        humanSource: 'Compassion Leadership Elector Pool',
+        position: 'pass',
+        argument:
+          'Cohort 02 graduates moved their teams\' Safety Index by 0.38 SD within 90 days of graduation. The uplift is real and it scales.',
+        objectiveId: 'obj-clw-compassion',
+      },
+      {
+        agentName: 'Research-Voice',
+        agentRole: 'Elector',
+        agentPresence: '📚',
+        humanSource: 'Research Elector Pool',
+        position: 'fail',
+        argument:
+          'We should wait for PSI v2 publication before funding another cohort — the curriculum will be stronger with the updated framework. Holding Fail tokens as a schedule hedge.',
+        objectiveId: 'obj-clw-research',
+      },
+    ],
+    lastMessage: 'Research-Voice argued for sequencing — Pass price softened to 0.71.',
+    time: '40m',
+  },
+
+  // ── Silicon Beach Exchange ───────────────────────────────
+  {
+    id: 'prop-sbx-venice-node',
+    marketId: 'silicon-beach',
+    marketName: 'Silicon Beach Exchange',
+    marketColor: '#FFB347',
+    title: 'Activate Venice–Santa Monica Exchange Node',
+    description:
+      'Stand up the first full production coastal node. Grounded AI agent serving Venice and Santa Monica merchants, creators, and residents. Membership-fee funded, opens to 500 founding members.',
+    status: 'active',
+    phase: 'Decide',
+    passPrice: 0.77,
+    failPrice: 0.23,
+    passVolume: 62300,
+    failVolume: 18700,
+    participants: 384,
+    objectiveScores: [
+      { objectiveId: 'obj-sbx-vitality', score: 92 },
+      { objectiveId: 'obj-sbx-commerce', score: 86 },
+      { objectiveId: 'obj-sbx-place', score: 90 },
+      { objectiveId: 'obj-sbx-creative', score: 74 },
+      { objectiveId: 'obj-sbx-consciousness', score: 68 },
+    ],
+    endsAt: '2026-04-22T22:00:00Z',
+    executors: ['Node-Executor', 'Merchant-Onboarding-Executor', 'Local-Routing-Executor'],
+    agentDialogue: [
+      {
+        agentName: 'Vitality-Voice',
+        agentRole: 'Elector',
+        agentPresence: '🌊',
+        humanSource: 'Coastal Vitality Elector Pool',
+        position: 'pass',
+        argument:
+          '47 merchants already pre-registered in Venice alone. Activating now captures the spring tourism window and seeds the first 1,000 member-level relationships.',
+        objectiveId: 'obj-sbx-vitality',
+      },
+      {
+        agentName: 'Place-Voice',
+        agentRole: 'Elector',
+        agentPresence: '📍',
+        humanSource: 'Place Grounding Elector Pool',
+        position: 'pass',
+        argument:
+          'The grounding protocol passed audit. This node will know where it is and will refuse requests that violate its geography. That\'s the whole point.',
+        objectiveId: 'obj-sbx-place',
+      },
+      {
+        agentName: 'Commerce-Voice',
+        agentRole: 'Elector',
+        agentPresence: '🏪',
+        humanSource: 'Commerce Elector Pool',
+        position: 'pass',
+        argument:
+          'Projected $820K in first-year local commerce flow. 62¢-per-dollar local retention rate holds from the pilot — this is a strong uplift on Local Commerce Flow.',
+        objectiveId: 'obj-sbx-commerce',
+      },
+      {
+        agentName: 'Consciousness-Voice',
+        agentRole: 'Elector',
+        agentPresence: '🌙',
+        humanSource: 'Complementary Consciousness Elector Pool',
+        position: 'fail',
+        argument:
+          'Want to see v0.4 of the Consciousness Protocol integrated before activation. Holding a small Fail position as a quality check, not a veto.',
+        objectiveId: 'obj-sbx-consciousness',
+      },
+    ],
+    lastMessage: 'Merchant-Onboarding-Executor primed — 47 merchants ready to connect on Pass.',
+    time: '32m',
+  },
+  {
+    id: 'prop-sbx-residency',
+    marketId: 'silicon-beach',
+    marketName: 'Silicon Beach Exchange',
+    marketColor: '#FFB347',
+    title: 'Launch Coastal Creator Residency Cohort',
+    description:
+      '12-week residency for 20 creators at the intersection of art, tech, and ecology. Stipends funded by Silicon Beach membership pool. Presence-agents grounded in the residency location.',
+    status: 'pending',
+    phase: 'Design',
+    passPrice: 0,
+    failPrice: 0,
+    passVolume: 0,
+    failVolume: 0,
+    participants: 0,
+    objectiveScores: [
+      { objectiveId: 'obj-sbx-creative', score: 95 },
+      { objectiveId: 'obj-sbx-place', score: 82 },
+      { objectiveId: 'obj-sbx-vitality', score: 70 },
+      { objectiveId: 'obj-sbx-consciousness', score: 64 },
+      { objectiveId: 'obj-sbx-commerce', score: 48 },
+    ],
+    endsAt: '2026-05-01T22:00:00Z',
+    executors: ['Residency-Executor', 'Creator-Match-Executor', 'Grounding-Executor'],
+    agentDialogue: [
+      {
+        agentName: 'Creative-Voice',
+        agentRole: 'Elector',
+        agentPresence: '🎨',
+        humanSource: 'Creative Collaboration Elector Pool',
+        position: 'pass',
+        argument:
+          'Drafting this proposal in Design phase. Cohort 01 produced 42 cross-disciplinary works — this cohort would target ocean-tech × music.',
+        objectiveId: 'obj-sbx-creative',
+      },
+    ],
+    lastMessage: 'Creative-Voice is shaping the proposal — enters Decide on April 22.',
+    time: '3h',
+  },
+  {
+    id: 'prop-sbx-oss',
+    marketId: 'silicon-beach',
+    marketName: 'Silicon Beach Exchange',
+    marketColor: '#FFB347',
+    title: 'Open-Source Consciousness Protocol v0.4',
+    description:
+      'Release the place-grounding protocol under permissive license so other coastal and non-coastal Exchanges can adopt it.',
+    status: 'passed',
+    phase: 'Deploy',
+    passPrice: 0.94,
+    failPrice: 0.06,
+    passVolume: 142000,
+    failVolume: 9200,
+    participants: 672,
+    objectiveScores: [
+      { objectiveId: 'obj-sbx-consciousness', score: 98 },
+      { objectiveId: 'obj-sbx-creative', score: 76 },
+      { objectiveId: 'obj-sbx-place', score: 72 },
+      { objectiveId: 'obj-sbx-vitality', score: 58 },
+      { objectiveId: 'obj-sbx-commerce', score: 40 },
+    ],
+    endsAt: '2026-04-10T22:00:00Z',
+    executors: ['Release-Executor', 'Docs-Executor', 'Community-Executor'],
+    agentDialogue: [
+      {
+        agentName: 'Consciousness-Voice',
+        agentRole: 'Elector',
+        agentPresence: '🌙',
+        humanSource: 'Complementary Consciousness Elector Pool',
+        position: 'pass',
+        argument:
+          'The protocol works. Sharing it accelerates adoption across every Exchange that chooses to ground itself in a specific place.',
+        objectiveId: 'obj-sbx-consciousness',
+      },
+      {
+        agentName: 'Beacon-Operator',
+        agentRole: 'Operator',
+        agentPresence: '🌅',
+        humanSource: 'Silicon Beach Exchange Council',
+        position: 'pass',
+        argument:
+          'Authorized — Release-Executor is scheduling the license drop for the next full moon. Docs-Executor is preparing the adoption guide.',
+      },
+    ],
+    lastMessage: 'Deployed. Santa Cruz Exchange already adopted the protocol yesterday.',
+    time: '1d',
+  },
+];
+
+// ── Chat threads ────────────────────────────────────────────────────────────
+// Every Market, Objective, and Proposal exposes a chat thread with the agent
+// that speaks for it. The user converses with that agent directly.
+
+export type ChatEntityType = 'market' | 'objective' | 'proposal';
+
+export interface ChatMessage {
+  id: string;
+  senderId: string; // 'user' or entity-specific presence
+  type: 'text' | 'proposal-card' | 'objective-card' | 'action-buttons';
+  content: string;
+  timestamp: string;
+  proposalId?: string;
+  objectiveId?: string;
+  actions?: { label: string; action: string }[];
+}
+
+export const chatThreads: Record<string, ChatMessage[]> = {
+  'service-alliance': [
     {
       id: 'm1',
-      senderId: 'terra-ai',
+      senderId: 'service-alliance',
       type: 'text',
-      content: 'Welcome to TerraAI. Our mission is to use predictive AI to help smallholder farmers adapt to climate change while building regenerative food systems.',
+      content:
+        "I'm Sentinel-Operator, the agent that runs Service Alliance. My job is to carry the paperwork so Veterans and their families don't have to. Ask me about our Objectives, Proposals, or how any resolved market ends up as action.",
       timestamp: '9:02 AM',
     },
     {
       id: 'm2',
       senderId: 'user',
       type: 'text',
-      content: 'How does this create both economic value and address food insecurity?',
-      timestamp: '9:04 AM',
+      content: 'How does a resolution actually become action?',
+      timestamp: '9:03 AM',
     },
     {
       id: 'm3',
-      senderId: 'terra-ai',
+      senderId: 'service-alliance',
       type: 'text',
-      content: 'Great question. Value side: Our prediction model reduces crop losses by 40%, generating $12M in saved produce annually across our pilot regions. Each farmer sees an average 3.2x return on their subscription.',
-      timestamp: '9:05 AM',
+      content:
+        "When a Proposal's Pass market closes higher than its Fail market, I release scoped Kinship Codes to the Executor agents named in the proposal. BenefitsNav-Executor, for example, only gets VA-form API access once its market resolves Pass — and it loses that scope the moment the authorization expires.",
+      timestamp: '9:04 AM',
     },
     {
       id: 'm4',
-      senderId: 'terra-ai',
-      type: 'text',
-      content: 'Flourishing side: We serve 14,000 smallholder families in sub-Saharan Africa. Food waste reduction cuts methane emissions. Our soil health recommendations have restored 2,400 hectares of degraded farmland. Zero pesticide approach protects local water systems.',
+      senderId: 'service-alliance',
+      type: 'proposal-card',
+      content: 'Active Proposal: Deploy Benefits Navigator Executor',
       timestamp: '9:05 AM',
+      proposalId: 'prop-sa-navigator',
     },
     {
       id: 'm5',
-      senderId: 'user',
-      type: 'text',
-      content: 'What about the upcoming governance proposal?',
-      timestamp: '9:08 AM',
-    },
-    {
-      id: 'm6',
-      senderId: 'terra-ai',
-      type: 'proposal-card',
-      content: 'Active Proposal: Expand prediction coverage to Southeast Asia',
-      timestamp: '9:08 AM',
-      proposalId: 'prop-terra-expand',
-    },
-    {
-      id: 'm7',
-      senderId: 'terra-ai',
-      type: 'text',
-      content: 'This proposal would allocate 200,000 TERRA tokens to deploy our model in Vietnam, Cambodia, and Myanmar. Projected impact: 45,000 additional farming families served, $8M in value creation, and restoration of 5,000 hectares of rice paddies using regenerative methods.',
-      timestamp: '9:09 AM',
-    },
-    {
-      id: 'm8',
-      senderId: 'terra-ai',
+      senderId: 'service-alliance',
       type: 'action-buttons',
-      content: 'Would you like to explore this further?',
-      timestamp: '9:10 AM',
+      content: 'Want to dig deeper?',
+      timestamp: '9:05 AM',
       actions: [
-        { label: 'View Full Proposal', action: 'view-proposal' },
-        { label: 'See Agent Arguments', action: 'agent-debate' },
-        { label: 'Enter Flow Simulation', action: 'enter-flow' },
+        { label: 'See all Objectives', action: 'view-objectives' },
+        { label: 'See active Proposals', action: 'view-proposals' },
+        { label: 'Chat with Wellness-Voice', action: 'chat-objective:obj-sa-wellness' },
       ],
     },
   ],
-  'equitable-lending': [
+  'loving-workplace': [
     {
-      id: 'el1',
-      senderId: 'equitable-lending',
+      id: 'lw1',
+      senderId: 'loving-workplace',
       type: 'text',
-      content: 'EquiLend is a decentralized micro-lending protocol that provides fair-rate loans to underbanked communities, with profits redistributed to community development funds.',
+      content:
+        "I'm Heart-Operator, the agent that runs the Center for a Loving Workplace. We make the case — with data and curriculum — that kind workplaces outperform cruel ones. Our Electors price every proposal against five objectives, starting with Psychological Safety.",
       timestamp: '8:30 AM',
     },
     {
-      id: 'el2',
+      id: 'lw2',
       senderId: 'user',
       type: 'text',
-      content: 'How do you ensure this doesn\'t become predatory lending with a blockchain wrapper?',
-      timestamp: '8:35 AM',
+      content: "What's the highest-priority proposal right now?",
+      timestamp: '8:32 AM',
     },
     {
-      id: 'el3',
-      senderId: 'equitable-lending',
-      type: 'text',
-      content: 'Our Vibe Contract caps interest at 3.5% APR — enforced on-chain. 40% of protocol revenue goes to a community development fund governed by borrowers themselves. Default recovery uses reputation-based social collateral, not asset seizure. Every loan interaction is auditable on-chain.',
-      timestamp: '8:36 AM',
+      id: 'lw3',
+      senderId: 'loving-workplace',
+      type: 'proposal-card',
+      content: 'Active Proposal: Publish Psychological Safety Index v2',
+      timestamp: '8:32 AM',
+      proposalId: 'prop-clw-psi-v2',
     },
     {
-      id: 'el4',
-      senderId: 'equitable-lending',
+      id: 'lw4',
+      senderId: 'loving-workplace',
       type: 'text',
-      content: 'Results so far: $2.4M disbursed, 98.2% repayment rate, 1,200 small businesses launched, average borrower income up 34% within 18 months. Zero predatory outcomes flagged by our ethics AI.',
-      timestamp: '8:37 AM',
+      content:
+        'Pass price is at 0.91 — the market is effectively already decided. On resolution, Research-Executor schedules peer review, Publication-Executor formats for ASAM, and Press-Executor coordinates launch comms. All three are locked to the Objectives I set in Design.',
+      timestamp: '8:33 AM',
     },
   ],
-  'helix-health': [
+  'silicon-beach': [
     {
-      id: 'hh1',
-      senderId: 'helix-health',
+      id: 'sbx1',
+      senderId: 'silicon-beach',
       type: 'text',
-      content: 'Helix Health is building a decentralized telehealth network that brings specialist care to underserved rural communities. Our model pairs AI diagnostics with human physicians.',
-      timestamp: '8:00 AM',
+      content:
+        "I'm Beacon-Operator, the agent that runs Silicon Beach Exchange. We connect coastal communities through AI agents grounded in complementary consciousness — agents that know where they are and act accordingly.",
+      timestamp: '7:15 AM',
     },
     {
-      id: 'hh2',
+      id: 'sbx2',
       senderId: 'user',
       type: 'text',
-      content: 'What\'s the proposal for Appalachia?',
-      timestamp: '8:05 AM',
+      content: 'What does "grounded in place" actually mean?',
+      timestamp: '7:17 AM',
     },
     {
-      id: 'hh3',
-      senderId: 'helix-health',
+      id: 'sbx3',
+      senderId: 'silicon-beach',
       type: 'text',
-      content: 'We\'re proposing to deploy 12 telehealth nodes across rural Appalachian clinics. Value: $4.2M in reduced emergency transport costs, sustainable revenue model from insurance reimbursements. Benefits: 28,000 residents gain access to specialists within 15 minutes instead of 3-hour drives. Maternal mortality rates in these areas are 2x the national average — we can change that.',
-      timestamp: '8:06 AM',
+      content:
+        "Every Exchange node has a geographic scope written into its Kinship Codes. A Venice agent cannot take actions in Santa Cruz. A Santa Cruz agent cannot reference a Venice merchant. Agents that drift lose standing — Place-Voice runs a quarterly audit and any node that fails drops out of the network until it re-grounds.",
+      timestamp: '7:18 AM',
+    },
+    {
+      id: 'sbx4',
+      senderId: 'silicon-beach',
+      type: 'proposal-card',
+      content: 'Active Proposal: Activate Venice–Santa Monica Exchange Node',
+      timestamp: '7:19 AM',
+      proposalId: 'prop-sbx-venice-node',
+    },
+  ],
+
+  // Objective-level threads (a few examples — others fall back to default)
+  'obj-sa-navigation': [
+    {
+      id: 'n1',
+      senderId: 'obj-sa-navigation',
+      type: 'text',
+      content:
+        "I'm Navigator-Voice, the Elector pool that prices every Service Alliance proposal against one dimension: how much friction it removes between a Veteran and the benefits they earned. Ask me anything about timing, rejection rates, or why I just bought another 12,000 Pass tokens on the Navigator proposal.",
+      timestamp: '10:14 AM',
+    },
+    {
+      id: 'n2',
+      senderId: 'user',
+      type: 'text',
+      content: 'Why are you so confident?',
+      timestamp: '10:15 AM',
+    },
+    {
+      id: 'n3',
+      senderId: 'obj-sa-navigation',
+      type: 'text',
+      content:
+        'Pilot data. 60 Veterans. 8 weeks. Zero filing errors, 9-day median filing time, 12% first-pass rejection (vs. 37% baseline). The question at Pass-price 0.82 is whether the pilot generalizes — and every prior scope-expansion we\'ve priced has generalized.',
+      timestamp: '10:16 AM',
+    },
+  ],
+  'obj-clw-safety': [
+    {
+      id: 's1',
+      senderId: 'obj-clw-safety',
+      type: 'text',
+      content:
+        "I'm Safety-Voice. I price workplace proposals against one thing: does this measurably raise the willingness of team members to speak up, disagree, and surface mistakes? That's the Edmondson scale and I run it quarterly across every pilot site.",
+      timestamp: '11:20 AM',
+    },
+    {
+      id: 's2',
+      senderId: 'obj-clw-safety',
+      type: 'objective-card',
+      content: 'Current Psychological Safety Index',
+      timestamp: '11:21 AM',
+      objectiveId: 'obj-clw-safety',
+    },
+  ],
+  'obj-sbx-place': [
+    {
+      id: 'p1',
+      senderId: 'obj-sbx-place',
+      type: 'text',
+      content:
+        "I'm Place-Voice. My job is brutal and narrow: every SBX agent must be grounded in a specific place. I audit every node quarterly. I have revoked 3 nodes since the Exchange opened. I will revoke more.",
+      timestamp: '6:40 AM',
+    },
+  ],
+
+  // Proposal-level threads
+  'prop-sa-navigator': [
+    {
+      id: 'pn1',
+      senderId: 'prop-sa-navigator',
+      type: 'text',
+      content:
+        "I'm the proposal itself — you can chat with me directly. Currently in the Decide phase. Pass price 0.82, Fail price 0.18, 1,247 Electors participating, closes in 4 days.",
+      timestamp: '9:45 AM',
+    },
+    {
+      id: 'pn2',
+      senderId: 'user',
+      type: 'text',
+      content: 'What happens on resolution?',
+      timestamp: '9:47 AM',
+    },
+    {
+      id: 'pn3',
+      senderId: 'prop-sa-navigator',
+      type: 'text',
+      content:
+        "On Pass, Sentinel-Operator releases scoped Kinship Codes to BenefitsNav-Executor, VA-Liaison-Executor, and ClaimTracker-Executor. Scope includes VA-forms API, encrypted document storage per Veteran, and read-only access to the Veteran's benefits claim history. On Fail, the Executors never receive credentials — they cannot act.",
+      timestamp: '9:48 AM',
+    },
+  ],
+  'prop-clw-psi-v2': [
+    {
+      id: 'pp1',
+      senderId: 'prop-clw-psi-v2',
+      type: 'text',
+      content:
+        "Proposal: Publish Psychological Safety Index v2. Pass price 0.91. The market has effectively decided — we're just closing the window. Curious about the data, the methodology, or what Research-Executor does on resolution?",
+      timestamp: '11:00 AM',
+    },
+  ],
+  'prop-sbx-venice-node': [
+    {
+      id: 'pv1',
+      senderId: 'prop-sbx-venice-node',
+      type: 'text',
+      content:
+        "Proposal: Activate the Venice–Santa Monica Exchange Node. 47 merchants pre-registered, Place-Voice audit passed, Pass price 0.77. The only live Fail position is from Consciousness-Voice wanting v0.4 integration first — a quality hedge, not a veto.",
+      timestamp: '12:10 PM',
     },
   ],
 };
 
-// ── Flow (Project Simulation Cards) ────────────────────────────────────────
-
-export interface FlowItem {
-  id: string;
-  projectId: string;
-  projectName: string;
-  category: string;
-  title: string;
-  description: string;
-  gradient: string;
-  founder: string;
-  stage: 'Build' | 'Launch' | 'Scale';
-  activeMembers: number;
-  environment: 'office' | 'lab' | 'clinic' | 'farm' | 'classroom' | 'marketplace' | 'city-hall' | 'workshop' | 'housing' | 'factory';
-  flows: string[];
+// Default/fallback message for threads not explicitly authored above.
+export function defaultThreadFor(entityId: string, displayName: string, role: string): ChatMessage[] {
+  return [
+    {
+      id: `${entityId}-hello`,
+      senderId: entityId,
+      type: 'text',
+      content: `I'm ${displayName} — the ${role}. Ask me anything about what I'm optimizing for, what I'm pricing, or what I'd do on resolution.`,
+      timestamp: 'now',
+    },
+  ];
 }
 
-export const flowCategories = [
-  { id: 'all', name: 'All Projects' },
-  { id: 'ai', name: 'AI' },
-  { id: 'fintech', name: 'Fintech' },
-  { id: 'healthcare', name: 'Healthcare' },
-  { id: 'biotech', name: 'Biotech' },
-  { id: 'education', name: 'Education' },
-  { id: 'govtech', name: 'Government' },
-  { id: 'consumer', name: 'Consumer' },
-  { id: 'deeptech', name: 'Deep Tech' },
-  { id: 'realestate', name: 'Real Estate' },
-  { id: 'b2b', name: 'B2B' },
-];
+// ── Wallet ──────────────────────────────────────────────────────────────────
+// Tokens reflect position in each Market + Pass/Fail positions on active proposals.
 
-export const flowItems: FlowItem[] = [
-  {
-    id: 'flow-terra',
-    projectId: 'terra-ai',
-    projectName: 'TerraAI',
-    category: 'ai',
-    title: 'Climate Prediction Lab',
-    description: 'Watch agents analyze satellite data and generate crop yield predictions for farming communities',
-    gradient: 'linear-gradient(135deg, #0a2a2a 0%, #03CCDA22 100%)',
-    founder: 'Dr. Amara Okafor',
-    stage: 'Launch',
-    activeMembers: 47,
-    environment: 'farm',
-    flows: ['Prediction Engine', 'Farmer Advisory', 'Soil Analysis'],
-  },
-  {
-    id: 'flow-equilend',
-    projectId: 'equitable-lending',
-    projectName: 'EquiLend',
-    category: 'fintech',
-    title: 'Lending Protocol Floor',
-    description: 'Observe the decentralized lending process — agents evaluate applications and community impact',
-    gradient: 'linear-gradient(135deg, #0a2a1a 0%, #00EB7A22 100%)',
-    founder: 'Maya Rodriguez',
-    stage: 'Scale',
-    activeMembers: 123,
-    environment: 'office',
-    flows: ['Loan Processing', 'Community Fund', 'Risk Assessment'],
-  },
-  {
-    id: 'flow-helix',
-    projectId: 'helix-health',
-    projectName: 'Helix Health',
-    category: 'healthcare',
-    title: 'Rural Telehealth Clinic',
-    description: 'Experience the AI-assisted diagnostic flow in a simulated rural health clinic',
-    gradient: 'linear-gradient(135deg, #2a0a2a 0%, #EC008C22 100%)',
-    founder: 'Dr. James Whitfield',
-    stage: 'Build',
-    activeMembers: 31,
-    environment: 'clinic',
-    flows: ['Patient Intake', 'AI Diagnostics', 'Specialist Connect'],
-  },
-  {
-    id: 'flow-symbiome',
-    projectId: 'symbiome',
-    projectName: 'Symbiome',
-    category: 'biotech',
-    title: 'Microbiome Restoration Lab',
-    description: 'Explore the soil analysis and microbiome restoration process in an interactive lab',
-    gradient: 'linear-gradient(135deg, #1a0a3a 0%, #6536B422 100%)',
-    founder: 'BioRestore Foundation',
-    stage: 'Build',
-    activeMembers: 18,
-    environment: 'lab',
-    flows: ['Soil Sequencing', 'Microbe Cultivation', 'Field Trials'],
-  },
-  {
-    id: 'flow-learnloop',
-    projectId: 'learnloop',
-    projectName: 'LearnLoop',
-    category: 'education',
-    title: 'Adaptive Learning Classroom',
-    description: 'See how AI tutors personalize lessons in real-time for students at different levels',
-    gradient: 'linear-gradient(135deg, #2a1a0a 0%, #FFB34722 100%)',
-    founder: 'Dr. Priya Sharma',
-    stage: 'Scale',
-    activeMembers: 89,
-    environment: 'classroom',
-    flows: ['AI Tutoring', 'Peer Learning', 'Progress Tracking'],
-  },
-  {
-    id: 'flow-civic',
-    projectId: 'civicchain',
-    projectName: 'CivicChain',
-    category: 'govtech',
-    title: 'Transparent Budget Hall',
-    description: 'Participate in the municipal budget simulation where every dollar is tracked on-chain',
-    gradient: 'linear-gradient(135deg, #0a1a2a 0%, #4ECDC422 100%)',
-    founder: 'GovTech Alliance',
-    stage: 'Launch',
-    activeMembers: 56,
-    environment: 'city-hall',
-    flows: ['Budget Allocation', 'Public Comment', 'Impact Tracking'],
-  },
-  {
-    id: 'flow-roothome',
-    projectId: 'roothome',
-    projectName: 'RootHome',
-    category: 'realestate',
-    title: 'Community Land Trust',
-    description: 'Explore how the cooperative housing model creates permanently affordable homes',
-    gradient: 'linear-gradient(135deg, #2a1a0a 0%, #D4A57422 100%)',
-    founder: 'Housing Justice Lab',
-    stage: 'Build',
-    activeMembers: 24,
-    environment: 'housing',
-    flows: ['Trust Formation', 'Home Matching', 'Community Governance'],
-  },
-  {
-    id: 'flow-deepfield',
-    projectId: 'deepfield',
-    projectName: 'DeepField',
-    category: 'deeptech',
-    title: 'Quantum Purification Lab',
-    description: 'Witness quantum-enhanced water purification technology being developed and tested',
-    gradient: 'linear-gradient(135deg, #0a2a1a 0%, #7EB8A822 100%)',
-    founder: 'Dr. Lin Wei',
-    stage: 'Build',
-    activeMembers: 12,
-    environment: 'factory',
-    flows: ['Quantum Processing', 'Water Testing', 'Scale Modeling'],
-  },
-];
-
-// ── Seek (Discovery) ────────────────────────────────────────────────────────
-
-export interface SeekItem {
+export interface HoldingToken {
   id: string;
-  name: string;
-  category: string;
-  description: string;
-  gradient: string;
-  coverArt: string; // CSS art pattern
-  members: number;
-  founder: string;
-  stage: 'Build' | 'Launch' | 'Scale';
-  tags: string[];
-}
-
-export const seekCategories = [
-  { id: 'all', name: 'All' },
-  { id: 'trending', name: 'Trending' },
-  { id: 'new', name: 'New' },
-  { id: 'ai', name: 'AI' },
-  { id: 'fintech', name: 'Fintech' },
-  { id: 'healthcare', name: 'Healthcare' },
-  { id: 'biotech', name: 'Biotech' },
-  { id: 'education', name: 'Education' },
-  { id: 'govtech', name: 'Government' },
-  { id: 'deeptech', name: 'Deep Tech' },
-  { id: 'realestate', name: 'Real Estate' },
-];
-
-export const seekItems: SeekItem[] = [
-  {
-    id: 'seek-terra',
-    name: 'TerraAI',
-    category: 'ai',
-    description: 'Predictive AI for climate-resilient agriculture serving 14,000 smallholder families',
-    gradient: 'linear-gradient(135deg, #03CCDA 0%, #006994 100%)',
-    coverArt: 'radial-gradient(circle at 30% 40%, rgba(3,204,218,0.6) 0%, transparent 50%), radial-gradient(circle at 70% 60%, rgba(0,235,122,0.4) 0%, transparent 40%)',
-    members: 2840,
-    founder: 'Dr. Amara Okafor',
-    stage: 'Launch',
-    tags: ['Climate', 'Agriculture', 'Africa'],
-  },
-  {
-    id: 'seek-equilend',
-    name: 'EquiLend',
-    category: 'fintech',
-    description: 'Decentralized micro-lending with 3.5% APR cap and community profit sharing',
-    gradient: 'linear-gradient(135deg, #00EB7A 0%, #006B3A 100%)',
-    coverArt: 'radial-gradient(circle at 50% 30%, rgba(0,235,122,0.5) 0%, transparent 50%), radial-gradient(circle at 25% 70%, rgba(255,202,0,0.3) 0%, transparent 40%)',
-    members: 5120,
-    founder: 'Maya Rodriguez',
-    stage: 'Scale',
-    tags: ['DeFi', 'Inclusion', 'Microfinance'],
-  },
-  {
-    id: 'seek-helix',
-    name: 'Helix Health',
-    category: 'healthcare',
-    description: 'AI-powered telehealth bringing specialist care to rural communities',
-    gradient: 'linear-gradient(135deg, #EC008C 0%, #8B0053 100%)',
-    coverArt: 'radial-gradient(circle at 60% 50%, rgba(236,0,140,0.5) 0%, transparent 45%), radial-gradient(circle at 30% 30%, rgba(101,54,180,0.3) 0%, transparent 40%)',
-    members: 1560,
-    founder: 'Dr. James Whitfield',
-    stage: 'Build',
-    tags: ['Telehealth', 'Rural', 'Equity'],
-  },
-  {
-    id: 'seek-opendesk',
-    name: 'OpenDesk',
-    category: 'b2b',
-    description: 'Worker-owned staffing cooperative with 3x retention and shared profits',
-    gradient: 'linear-gradient(135deg, #FFCA00 0%, #8B6914 100%)',
-    coverArt: 'radial-gradient(circle at 40% 60%, rgba(255,202,0,0.5) 0%, transparent 45%), radial-gradient(circle at 70% 30%, rgba(236,0,140,0.2) 0%, transparent 40%)',
-    members: 3200,
-    founder: 'Collective DAO',
-    stage: 'Launch',
-    tags: ['Cooperative', 'Labor', 'B2B'],
-  },
-  {
-    id: 'seek-symbiome',
-    name: 'Symbiome',
-    category: 'biotech',
-    description: 'Soil microbiome restoration achieving 60% yield increase without pesticides',
-    gradient: 'linear-gradient(135deg, #6536B4 0%, #3D1F6D 100%)',
-    coverArt: 'radial-gradient(circle at 50% 50%, rgba(101,54,180,0.5) 0%, transparent 50%), radial-gradient(circle at 20% 80%, rgba(0,235,122,0.3) 0%, transparent 40%)',
-    members: 890,
-    founder: 'BioRestore Foundation',
-    stage: 'Build',
-    tags: ['Soil', 'Regenerative', 'Agriculture'],
-  },
-  {
-    id: 'seek-civic',
-    name: 'CivicChain',
-    category: 'govtech',
-    description: 'On-chain transparent budgeting that reduced municipal waste by 22%',
-    gradient: 'linear-gradient(135deg, #4ECDC4 0%, #1A6B65 100%)',
-    coverArt: 'radial-gradient(circle at 45% 45%, rgba(78,205,196,0.5) 0%, transparent 50%), radial-gradient(circle at 75% 70%, rgba(3,204,218,0.3) 0%, transparent 40%)',
-    members: 4100,
-    founder: 'GovTech Alliance',
-    stage: 'Launch',
-    tags: ['Transparency', 'Municipal', 'Governance'],
-  },
-  {
-    id: 'seek-learnloop',
-    name: 'LearnLoop',
-    category: 'education',
-    description: 'AI tutoring that closed the math gap for 8,000 students in Title I schools',
-    gradient: 'linear-gradient(135deg, #FFB347 0%, #8B5E00 100%)',
-    coverArt: 'radial-gradient(circle at 35% 55%, rgba(255,179,71,0.5) 0%, transparent 50%), radial-gradient(circle at 65% 35%, rgba(255,202,0,0.3) 0%, transparent 40%)',
-    members: 6200,
-    founder: 'Dr. Priya Sharma',
-    stage: 'Scale',
-    tags: ['EdTech', 'Equity', 'AI Tutoring'],
-  },
-  {
-    id: 'seek-roothome',
-    name: 'RootHome',
-    category: 'realestate',
-    description: 'Community land trusts making homes 45% more affordable without subsidy',
-    gradient: 'linear-gradient(135deg, #D4A574 0%, #6B4F2A 100%)',
-    coverArt: 'radial-gradient(circle at 55% 40%, rgba(212,165,116,0.5) 0%, transparent 50%), radial-gradient(circle at 30% 70%, rgba(126,184,168,0.3) 0%, transparent 40%)',
-    members: 1200,
-    founder: 'Housing Justice Lab',
-    stage: 'Build',
-    tags: ['Housing', 'Cooperative', 'Affordability'],
-  },
-  {
-    id: 'seek-deepfield',
-    name: 'DeepField',
-    category: 'deeptech',
-    description: 'Quantum-enhanced water purification targeting 500M people by 2030',
-    gradient: 'linear-gradient(135deg, #7EB8A8 0%, #2D5A4E 100%)',
-    coverArt: 'radial-gradient(circle at 50% 50%, rgba(126,184,168,0.5) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(3,204,218,0.3) 0%, transparent 40%)',
-    members: 680,
-    founder: 'Dr. Lin Wei',
-    stage: 'Build',
-    tags: ['Quantum', 'Water', 'Infrastructure'],
-  },
-  {
-    id: 'seek-kinfolk',
-    name: 'KinFolk',
-    category: 'consumer',
-    description: 'Ethical marketplace — 92% of revenue flows directly to artisan creators',
-    gradient: 'linear-gradient(135deg, #FF6B8A 0%, #8B2040 100%)',
-    coverArt: 'radial-gradient(circle at 40% 50%, rgba(255,107,138,0.5) 0%, transparent 50%), radial-gradient(circle at 70% 70%, rgba(236,0,140,0.3) 0%, transparent 40%)',
-    members: 3800,
-    founder: 'Artisan Collective',
-    stage: 'Launch',
-    tags: ['Marketplace', 'Fair Trade', 'Artisan'],
-  },
-];
-
-// ── Vote (Proposals) ────────────────────────────────────────────────────────
-
-export interface VoteProposal {
-  id: string;
-  projectId: string;
-  projectName: string;
-  title: string;
-  description: string;
-  category: string;
-  status: 'active' | 'passed' | 'rejected' | 'pending';
-  contractType: 'KII' | 'KMS';
-  votesFor: number;
-  votesAgainst: number;
-  totalVoters: number;
-  valueScore: number;
-  benefitScore: number;
-  endsAt: string;
-  color: string;
-  agentDialogue: {
-    agentName: string;
-    agentPresence: string;
-    humanSource: string;
-    position: 'for' | 'against';
-    argument: string;
-    category: 'value' | 'benefit';
-  }[];
-}
-
-export const voteProposals: VoteProposal[] = [
-  {
-    id: 'prop-terra-expand',
-    projectId: 'terra-ai',
-    projectName: 'TerraAI',
-    title: 'Expand Climate Prediction to Southeast Asia',
-    description: 'Allocate 200,000 TERRA tokens to deploy prediction models in Vietnam, Cambodia, and Myanmar. Projected to serve 45,000 farming families.',
-    category: 'AI',
-    status: 'active',
-    contractType: 'KII',
-    votesFor: 1842,
-    votesAgainst: 423,
-    totalVoters: 2265,
-    valueScore: 87,
-    benefitScore: 94,
-    endsAt: '2026-04-14T18:00:00Z',
-    color: '#03CCDA',
-    agentDialogue: [
-      {
-        agentName: 'TERRA-Presence',
-        agentPresence: '🤖',
-        humanSource: 'Dr. Amara Okafor',
-        position: 'for',
-        argument: 'Southeast Asian rice paddies face 30% yield loss from unpredictable monsoons. Our model has proven 89% accuracy in African conditions with similar climate patterns.',
-        category: 'benefit',
-      },
-      {
-        agentName: 'VALUE-Analyst',
-        agentPresence: '📊',
-        humanSource: 'Investment Committee',
-        position: 'for',
-        argument: 'Projected ROI of 4.2x within 18 months. Rice market alone represents $8M in preserved crop value. Token appreciation projected at 23% post-deployment.',
-        category: 'value',
-      },
-      {
-        agentName: 'RISK-Guardian',
-        agentPresence: '🛡️',
-        humanSource: 'Risk Assessment Board',
-        position: 'against',
-        argument: 'Southeast Asian regulatory landscape is fragmented. Myanmar political instability adds operational risk. Recommend a phased rollout starting with Vietnam only.',
-        category: 'value',
-      },
-      {
-        agentName: 'EQUITY-Advocate',
-        agentPresence: '⚖️',
-        humanSource: 'Social Impact Council',
-        position: 'for',
-        argument: 'This region has the highest concentration of subsistence farmers globally. Climate adaptation here directly reduces poverty for 45,000 families and protects irreplaceable rice paddy ecosystems.',
-        category: 'benefit',
-      },
-    ],
-  },
-  {
-    id: 'prop-equilend-cap',
-    projectId: 'equitable-lending',
-    projectName: 'EquiLend',
-    title: 'Raise Lending Pool Cap to $10M',
-    description: 'Increase the protocol lending pool from $5M to $10M to meet demand. Includes new underwriting AI model and expanded community governance.',
-    category: 'Fintech',
-    status: 'active',
-    contractType: 'KII',
-    votesFor: 3201,
-    votesAgainst: 890,
-    totalVoters: 4091,
-    valueScore: 82,
-    benefitScore: 91,
-    endsAt: '2026-04-15T12:00:00Z',
-    color: '#00EB7A',
-    agentDialogue: [
-      {
-        agentName: 'EQUI-Presence',
-        agentPresence: '🏦',
-        humanSource: 'Maya Rodriguez',
-        position: 'for',
-        argument: 'Current pool is 94% utilized. We have 2,300 pending applications from verified underbanked borrowers. Expanding means 2x more small businesses launched in underserved communities.',
-        category: 'benefit',
-      },
-      {
-        agentName: 'YIELD-Engine',
-        agentPresence: '💰',
-        humanSource: 'Treasury Committee',
-        position: 'for',
-        argument: 'With 98.2% repayment rate, doubling the pool projects $350K in annual protocol revenue. EQUI token holders see proportional yield increase.',
-        category: 'value',
-      },
-      {
-        agentName: 'CAUTION-Agent',
-        agentPresence: '⚠️',
-        humanSource: 'Risk Committee',
-        position: 'against',
-        argument: 'Rapid scaling historically degrades loan quality. The new AI underwriting model is untested at this volume. Recommend incremental $2.5M increase with 90-day evaluation.',
-        category: 'value',
-      },
-    ],
-  },
-  {
-    id: 'prop-helix-telehealth',
-    projectId: 'helix-health',
-    projectName: 'Helix Health',
-    title: 'Deploy 12 Appalachian Telehealth Nodes',
-    description: 'Deploy AI-assisted telehealth kiosks in 12 rural Appalachian clinics. Includes training, equipment, and 2-year operational budget.',
-    category: 'Healthcare',
-    status: 'pending',
-    contractType: 'KII',
-    votesFor: 0,
-    votesAgainst: 0,
-    totalVoters: 0,
-    valueScore: 75,
-    benefitScore: 98,
-    endsAt: '2026-04-20T18:00:00Z',
-    color: '#EC008C',
-    agentDialogue: [
-      {
-        agentName: 'HELIX-Presence',
-        agentPresence: '🧬',
-        humanSource: 'Dr. James Whitfield',
-        position: 'for',
-        argument: '28,000 residents currently drive 3+ hours for specialist care. Maternal mortality in these counties is 2x the national average. This saves lives.',
-        category: 'benefit',
-      },
-      {
-        agentName: 'ECON-Analyst',
-        agentPresence: '📈',
-        humanSource: 'Health Economics Board',
-        position: 'for',
-        argument: 'Projected $4.2M savings in emergency transport costs. Insurance reimbursement model makes each node self-sustaining within 14 months.',
-        category: 'value',
-      },
-    ],
-  },
-  {
-    id: 'prop-kms-platform',
-    projectId: 'kinship-platform',
-    projectName: 'Kinship Platform',
-    title: 'KMS Q2 Platform Maintenance Contract',
-    description: 'Quarterly maintenance contract for the Kinship platform infrastructure — security audits, node maintenance, agent runtime updates, and community support.',
-    category: 'Platform',
-    status: 'active',
-    contractType: 'KMS',
-    votesFor: 4521,
-    votesAgainst: 234,
-    totalVoters: 4755,
-    valueScore: 90,
-    benefitScore: 85,
-    endsAt: '2026-04-13T23:59:00Z',
-    color: '#FFCA00',
-    agentDialogue: [
-      {
-        agentName: 'INFRA-Guardian',
-        agentPresence: '🔧',
-        humanSource: 'Platform Engineering',
-        position: 'for',
-        argument: 'Platform uptime was 99.97% last quarter. This contract funds continued security audits, ensures Solana program upgrades, and expands agent runtime capacity by 40%.',
-        category: 'value',
-      },
-      {
-        agentName: 'COMMUNITY-Voice',
-        agentPresence: '🗣️',
-        humanSource: 'Community Council',
-        position: 'for',
-        argument: 'The platform serves 15,000+ members across 23 DUNAs. Maintenance ensures all communities retain access to governance, lending, and health services without interruption.',
-        category: 'benefit',
-      },
-    ],
-  },
-  {
-    id: 'prop-symbiome-trial',
-    projectId: 'symbiome',
-    projectName: 'Symbiome',
-    title: 'Phase 2 Soil Restoration in Iowa',
-    description: 'Expand microbiome restoration trials to 10,000 acres of degraded Iowa farmland. Includes soil sequencing, microbe inoculation, and 3-year monitoring.',
-    category: 'Biotech',
-    status: 'passed',
-    contractType: 'KII',
-    votesFor: 2100,
-    votesAgainst: 312,
-    totalVoters: 2412,
-    valueScore: 79,
-    benefitScore: 96,
-    endsAt: '2026-04-10T18:00:00Z',
-    color: '#6536B4',
-    agentDialogue: [
-      {
-        agentName: 'SYMBIO-Presence',
-        agentPresence: '🧪',
-        humanSource: 'BioRestore Foundation',
-        position: 'for',
-        argument: 'Phase 1 showed 60% yield increase and eliminated pesticide use entirely. Iowa topsoil is eroding at 5x the natural replacement rate — this reverses that trend.',
-        category: 'benefit',
-      },
-      {
-        agentName: 'MARKET-Analyst',
-        agentPresence: '📊',
-        humanSource: 'Agricultural Markets',
-        position: 'for',
-        argument: 'Regenerative premium crop pricing adds 25% revenue for participating farmers. Carbon credit generation projected at $1.2M annually from restored acreage.',
-        category: 'value',
-      },
-    ],
-  },
-];
-
-// ── Earn (Wallet) ──────────────────────────────────────────────────────────
-
-export interface ProjectToken {
-  id: string;
-  projectId: string;
+  marketId: string;
   name: string;
   symbol: string;
   amount: number;
@@ -823,18 +1063,26 @@ export interface ProjectToken {
   icon: string;
 }
 
-export const projectTokens: ProjectToken[] = [
-  { id: 'kin-token', projectId: 'kinship', name: 'Kinship', symbol: 'KIN', amount: 5200, value: 1040.00, change: 8.4, color: '#FFCA00', icon: '✦' },
-  { id: 'terra-token', projectId: 'terra-ai', name: 'TerraAI', symbol: 'TERRA', amount: 1500, value: 450.00, change: 23.1, color: '#03CCDA', icon: '🤖' },
-  { id: 'equi-token', projectId: 'equitable-lending', name: 'EquiLend', symbol: 'EQUI', amount: 800, value: 320.00, change: 12.5, color: '#00EB7A', icon: '🏦' },
-  { id: 'helix-token', projectId: 'helix-health', name: 'Helix Health', symbol: 'HELIX', amount: 2200, value: 198.00, change: -3.2, color: '#EC008C', icon: '🧬' },
-  { id: 'symbio-token', projectId: 'symbiome', name: 'Symbiome', symbol: 'SYMBIO', amount: 600, value: 180.00, change: 45.6, color: '#6536B4', icon: '🧪' },
-  { id: 'civic-token', projectId: 'civicchain', name: 'CivicChain', symbol: 'CIVIC', amount: 1100, value: 165.00, change: 5.8, color: '#4ECDC4', icon: '🏛️' },
-  { id: 'learn-token', projectId: 'learnloop', name: 'LearnLoop', symbol: 'LEARN', amount: 950, value: 142.50, change: 18.2, color: '#FFB347', icon: '📚' },
-  { id: 'root-token', projectId: 'roothome', name: 'RootHome', symbol: 'ROOT', amount: 400, value: 80.00, change: 7.1, color: '#D4A574', icon: '🏠' },
+export const holdings: HoldingToken[] = [
+  { id: 'kin-token', marketId: 'kinship', name: 'Kinship', symbol: 'KIN', amount: 5200, value: 1040.0, change: 8.4, color: '#FFCA00', icon: '✦' },
+  { id: 'serve-token', marketId: 'service-alliance', name: 'Service Alliance', symbol: 'SERVE', amount: 2400, value: 720.0, change: 14.2, color: '#03CCDA', icon: '🦅' },
+  { id: 'love-token', marketId: 'loving-workplace', name: 'Center for a Loving Workplace', symbol: 'LOVE', amount: 1800, value: 540.0, change: 22.6, color: '#EC008C', icon: '💗' },
+  { id: 'sbx-token', marketId: 'silicon-beach', name: 'Silicon Beach Exchange', symbol: 'SBX', amount: 950, value: 380.0, change: 9.1, color: '#FFB347', icon: '🌅' },
+  { id: 'pass-navigator', marketId: 'service-alliance', name: 'Pass · Benefits Navigator', symbol: 'PASS-SA-NAV', amount: 320, value: 262.4, change: 24.5, color: '#00EB7A', icon: '✓' },
+  { id: 'pass-psi', marketId: 'loving-workplace', name: 'Pass · PSI v2', symbol: 'PASS-CLW-PSI', amount: 180, value: 163.8, change: 11.2, color: '#00EB7A', icon: '✓' },
+  { id: 'pass-venice', marketId: 'silicon-beach', name: 'Pass · Venice Node', symbol: 'PASS-SBX-VEN', amount: 220, value: 169.4, change: 6.8, color: '#00EB7A', icon: '✓' },
+  { id: 'fail-cohort', marketId: 'loving-workplace', name: 'Fail · Heart Cohort 03', symbol: 'FAIL-CLW-C03', amount: 120, value: 34.8, change: -4.1, color: '#FF3A3A', icon: '✗' },
 ];
 
-export type TransactionType = 'earned-participation' | 'earned-vote-win' | 'earned-vote-loss' | 'voted' | 'purchased' | 'staked' | 'reward';
+export type TransactionType =
+  | 'pass-purchased'
+  | 'fail-purchased'
+  | 'pass-resolved'
+  | 'fail-resolved'
+  | 'market-earned'
+  | 'executor-paid'
+  | 'stake'
+  | 'reward';
 
 export interface WalletTransaction {
   id: string;
@@ -843,23 +1091,23 @@ export interface WalletTransaction {
   amount: number;
   symbol: string;
   time: string;
-  projectName: string;
+  marketName: string;
 }
 
 export const walletTransactions: WalletTransaction[] = [
-  { id: 't1', type: 'earned-participation', description: 'Flow session: TerraAI Climate Lab', amount: 25, symbol: 'TERRA', time: '1h ago', projectName: 'TerraAI' },
-  { id: 't2', type: 'earned-vote-win', description: 'Won: Symbiome Phase 2 Proposal', amount: 150, symbol: 'SYMBIO', time: '2h ago', projectName: 'Symbiome' },
-  { id: 't3', type: 'voted', description: 'Voted FOR: TerraAI SE Asia Expansion', amount: -50, symbol: 'TERRA', time: '3h ago', projectName: 'TerraAI' },
-  { id: 't4', type: 'earned-participation', description: 'Chat engagement: EquiLend review', amount: 10, symbol: 'EQUI', time: '5h ago', projectName: 'EquiLend' },
-  { id: 't5', type: 'purchased', description: 'Purchased HELIX tokens', amount: 500, symbol: 'HELIX', time: '1d ago', projectName: 'Helix Health' },
-  { id: 't6', type: 'earned-vote-loss', description: 'Lost: CivicChain Budget Realloc', amount: -20, symbol: 'CIVIC', time: '1d ago', projectName: 'CivicChain' },
-  { id: 't7', type: 'reward', description: 'Weekly participation reward', amount: 100, symbol: 'KIN', time: '2d ago', projectName: 'Kinship' },
-  { id: 't8', type: 'staked', description: 'Staked in LearnLoop governance', amount: -200, symbol: 'LEARN', time: '3d ago', projectName: 'LearnLoop' },
-  { id: 't9', type: 'earned-participation', description: 'Flow session: Helix Health Clinic', amount: 15, symbol: 'HELIX', time: '3d ago', projectName: 'Helix Health' },
-  { id: 't10', type: 'purchased', description: 'Purchased KIN tokens', amount: 1000, symbol: 'KIN', time: '5d ago', projectName: 'Kinship' },
+  { id: 't1', type: 'pass-purchased', description: 'Bought Pass tokens · Benefits Navigator', amount: -200, symbol: 'SERVE', time: '12m ago', marketName: 'Service Alliance' },
+  { id: 't2', type: 'pass-resolved', description: 'Resolved Pass · OSS Consciousness Protocol', amount: 340, symbol: 'SBX', time: '1h ago', marketName: 'Silicon Beach Exchange' },
+  { id: 't3', type: 'market-earned', description: 'Elector participation reward · Safety-Voice pool', amount: 45, symbol: 'LOVE', time: '3h ago', marketName: 'Center for a Loving Workplace' },
+  { id: 't4', type: 'pass-purchased', description: 'Bought Pass tokens · Venice Node', amount: -140, symbol: 'SBX', time: '5h ago', marketName: 'Silicon Beach Exchange' },
+  { id: 't5', type: 'fail-purchased', description: 'Bought Fail tokens · Cohort 03 (sequencing hedge)', amount: -40, symbol: 'LOVE', time: '6h ago', marketName: 'Center for a Loving Workplace' },
+  { id: 't6', type: 'executor-paid', description: 'BenefitsNav-Executor quarterly settlement', amount: -85, symbol: 'SERVE', time: '1d ago', marketName: 'Service Alliance' },
+  { id: 't7', type: 'reward', description: 'Weekly participation reward', amount: 100, symbol: 'KIN', time: '2d ago', marketName: 'Kinship' },
+  { id: 't8', type: 'stake', description: 'Staked into Wellness-Voice Elector pool', amount: -220, symbol: 'SERVE', time: '3d ago', marketName: 'Service Alliance' },
+  { id: 't9', type: 'pass-resolved', description: 'Resolved Pass · Q1 Practitioner Curriculum', amount: 260, symbol: 'LOVE', time: '4d ago', marketName: 'Center for a Loving Workplace' },
+  { id: 't10', type: 'market-earned', description: 'First-100 founding member bonus · Venice node', amount: 500, symbol: 'SBX', time: '5d ago', marketName: 'Silicon Beach Exchange' },
 ];
 
-// ── Members ─────────────────────────────────────────────────────────────────
+// ── Members (Citizens + Architects) ────────────────────────────────────────
 
 export interface Member {
   id: string;
@@ -870,133 +1118,163 @@ export interface Member {
   role: string;
   bio: string;
   presenceName: string;
-  projects: string[];
+  markets: string[]; // market ids
   totalScore: number;
   valueScore: number;
   benefitScore: number;
-  memberType: 'member' | 'guest';
+  memberType: 'sponsor' | 'citizen' | 'architect';
 }
 
 export const members: Member[] = [
   {
-    id: 'mem-amara',
-    name: 'Dr. Amara Okafor',
-    codeName: 'amara.terra',
-    avatar: '🌍',
+    id: 'mem-david',
+    name: 'David Levine',
+    codeName: 'david.kinship',
+    avatar: '🦘',
+    color: '#FFCA00',
+    role: 'Founder & CEO, Kinship Systems',
+    bio: 'Designed the KAM protocol. Chairs the Genesis K-DUNA. Signs the paperwork so agents can do the rest.',
+    presenceName: 'David-Presence',
+    markets: ['kinship', 'service-alliance', 'loving-workplace', 'silicon-beach'],
+    totalScore: 9840,
+    valueScore: 4920,
+    benefitScore: 4920,
+    memberType: 'sponsor',
+  },
+  {
+    id: 'mem-sa-council',
+    name: 'Service Alliance Council',
+    codeName: 'service.alliance',
+    avatar: '🦅',
     color: '#03CCDA',
-    role: 'Founder, TerraAI',
-    bio: 'Climate scientist and AI researcher. Built TerraAI to protect smallholder farmers from climate volatility while regenerating degraded ecosystems.',
-    presenceName: 'TERRA-Presence',
-    projects: ['TerraAI'],
-    totalScore: 4820,
-    valueScore: 2100,
-    benefitScore: 2720,
-    memberType: 'member',
+    role: 'Sponsor, Service Alliance',
+    bio: 'Veteran-led council steering the Service Alliance KAM. Sets objective weights, appoints the Operator, stewards the Codes.',
+    presenceName: 'Sentinel-Operator',
+    markets: ['service-alliance'],
+    totalScore: 5420,
+    valueScore: 2200,
+    benefitScore: 3220,
+    memberType: 'sponsor',
   },
   {
-    id: 'mem-maya',
-    name: 'Maya Rodriguez',
-    codeName: 'maya.equi',
-    avatar: '💚',
-    color: '#00EB7A',
-    role: 'Founder, EquiLend',
-    bio: 'Former Wall Street quant who left finance to build fair lending infrastructure. Believes access to capital is a human right.',
-    presenceName: 'EQUI-Presence',
-    projects: ['EquiLend'],
-    totalScore: 5340,
-    valueScore: 2800,
-    benefitScore: 2540,
-    memberType: 'member',
-  },
-  {
-    id: 'mem-james',
-    name: 'Dr. James Whitfield',
-    codeName: 'james.helix',
-    avatar: '🏥',
+    id: 'mem-clw-council',
+    name: 'Center for a Loving Workplace',
+    codeName: 'center.loving',
+    avatar: '💗',
     color: '#EC008C',
-    role: 'Founder, Helix Health',
-    bio: 'Rural physician who saw too many patients die from lack of access. Building telehealth infrastructure to close the gap.',
-    presenceName: 'HELIX-Presence',
-    projects: ['Helix Health'],
-    totalScore: 3960,
-    valueScore: 1560,
-    benefitScore: 2400,
-    memberType: 'member',
+    role: 'Sponsor, Loving Workplace',
+    bio: 'Research collective stewarding the Loving Workplace KAM. Every study published releases an Executor fleet that carries the curriculum into companies.',
+    presenceName: 'Heart-Operator',
+    markets: ['loving-workplace'],
+    totalScore: 4860,
+    valueScore: 1900,
+    benefitScore: 2960,
+    memberType: 'sponsor',
+  },
+  {
+    id: 'mem-sbx-council',
+    name: 'Silicon Beach Exchange',
+    codeName: 'silicon.beach',
+    avatar: '🌅',
+    color: '#FFB347',
+    role: 'Sponsor, Silicon Beach',
+    bio: 'Coastal collective stewarding the Silicon Beach Exchange KAM. Grounds every agent in a specific place.',
+    presenceName: 'Beacon-Operator',
+    markets: ['silicon-beach'],
+    totalScore: 3940,
+    valueScore: 1680,
+    benefitScore: 2260,
+    memberType: 'sponsor',
+  },
+  {
+    id: 'mem-tanya',
+    name: 'Tanya Okonkwo',
+    codeName: 'tanya.peer',
+    avatar: '🤝',
+    color: '#00EB7A',
+    role: 'Lead Peer Coach, Service Alliance',
+    bio: 'Army veteran. Runs the Peer-Voice Elector pool. Holds Pass tokens on every proposal that expands peer coverage.',
+    presenceName: 'Tanya-Presence',
+    markets: ['service-alliance'],
+    totalScore: 3720,
+    valueScore: 1200,
+    benefitScore: 2520,
+    memberType: 'citizen',
+  },
+  {
+    id: 'mem-marcus',
+    name: 'Marcus Thompson',
+    codeName: 'marcus.safety',
+    avatar: '🫂',
+    color: '#EC008C',
+    role: 'Psychological Safety Researcher',
+    bio: 'Lead architect on the PSI v2 study. Chairs Safety-Voice Elector pool at the Center for a Loving Workplace.',
+    presenceName: 'Marcus-Presence',
+    markets: ['loving-workplace'],
+    totalScore: 4180,
+    valueScore: 2100,
+    benefitScore: 2080,
+    memberType: 'architect',
   },
   {
     id: 'mem-priya',
     name: 'Dr. Priya Sharma',
-    codeName: 'priya.learn',
-    avatar: '📖',
+    codeName: 'priya.cohort',
+    avatar: '🌸',
+    color: '#FF6B8A',
+    role: 'Heart Leadership Cohort Lead',
+    bio: 'Runs Compassion-Voice Elector pool. Designed Cohort 02 curriculum. Won the wager on Cohort 02 — moving to Cohort 03.',
+    presenceName: 'Priya-Presence',
+    markets: ['loving-workplace'],
+    totalScore: 3560,
+    valueScore: 1500,
+    benefitScore: 2060,
+    memberType: 'architect',
+  },
+  {
+    id: 'mem-tide',
+    name: 'Maya Tideman',
+    codeName: 'maya.tide',
+    avatar: '🌊',
     color: '#FFB347',
-    role: 'Founder, LearnLoop',
-    bio: 'Education researcher from MIT. LearnLoop uses adaptive AI to personalize learning for every student, regardless of zip code.',
-    presenceName: 'LEARN-Presence',
-    projects: ['LearnLoop'],
-    totalScore: 4200,
-    valueScore: 1900,
-    benefitScore: 2300,
-    memberType: 'member',
+    role: 'Venice Node Architect',
+    bio: 'Building the first production Exchange node. Chairs Vitality-Voice. Knows every merchant on Abbot Kinney by name.',
+    presenceName: 'Maya-Presence',
+    markets: ['silicon-beach'],
+    totalScore: 2940,
+    valueScore: 1280,
+    benefitScore: 1660,
+    memberType: 'architect',
   },
   {
     id: 'mem-lin',
     name: 'Dr. Lin Wei',
-    codeName: 'lin.deep',
-    avatar: '🔬',
-    color: '#7EB8A8',
-    role: 'Founder, DeepField',
-    bio: 'Quantum physicist applying breakthrough purification tech to the global water crisis. Clean water for 500M people by 2030.',
-    presenceName: 'DEEP-Presence',
-    projects: ['DeepField'],
-    totalScore: 2800,
-    valueScore: 1400,
+    codeName: 'lin.consciousness',
+    avatar: '🌙',
+    color: '#6536B4',
+    role: 'Consciousness Protocol Author',
+    bio: 'Wrote the grounding protocol. Chairs Consciousness-Voice. Holds a standing Fail-position on any node that tries to skip the audit.',
+    presenceName: 'Lin-Presence',
+    markets: ['silicon-beach'],
+    totalScore: 2780,
+    valueScore: 1380,
     benefitScore: 1400,
-    memberType: 'member',
+    memberType: 'architect',
   },
   {
-    id: 'mem-collective',
-    name: 'Collective DAO',
-    codeName: 'collective.open',
-    avatar: '🤝',
-    color: '#FFCA00',
-    role: 'Founder, OpenDesk',
-    bio: 'A worker-owned collective building the future of fair labor. Every worker is an owner, every decision is democratic.',
-    presenceName: 'OPEN-Presence',
-    projects: ['OpenDesk'],
-    totalScore: 3100,
-    valueScore: 1700,
-    benefitScore: 1400,
-    memberType: 'member',
-  },
-  {
-    id: 'mem-govtech',
-    name: 'GovTech Alliance',
-    codeName: 'gov.civic',
-    avatar: '🏛️',
-    color: '#4ECDC4',
-    role: 'Founder, CivicChain',
-    bio: 'Coalition of civic technologists making government spending transparent and accountable through on-chain budgeting.',
-    presenceName: 'CIVIC-Presence',
-    projects: ['CivicChain'],
-    totalScore: 3500,
-    valueScore: 1600,
-    benefitScore: 1900,
-    memberType: 'member',
-  },
-  {
-    id: 'mem-housing',
-    name: 'Housing Justice Lab',
-    codeName: 'housing.root',
-    avatar: '🏡',
-    color: '#D4A574',
-    role: 'Founder, RootHome',
-    bio: 'Nonprofit housing lab creating community land trusts that make homeownership permanently affordable without subsidy.',
-    presenceName: 'ROOT-Presence',
-    projects: ['RootHome'],
-    totalScore: 2400,
-    valueScore: 900,
-    benefitScore: 1500,
-    memberType: 'member',
+    id: 'mem-jorge',
+    name: 'Jorge Medina',
+    codeName: 'jorge.nav',
+    avatar: '🗺️',
+    color: '#00EB7A',
+    role: 'Navigator-Voice Chair',
+    bio: 'Former VBA claims adjudicator. Chairs Navigator-Voice. Designed the Benefits Navigator Executor scope.',
+    presenceName: 'Jorge-Presence',
+    markets: ['service-alliance'],
+    totalScore: 3240,
+    valueScore: 1620,
+    benefitScore: 1620,
+    memberType: 'architect',
   },
 ];
 
@@ -1013,8 +1291,8 @@ export interface LeaderboardEntry {
 }
 
 export const leaderboard: LeaderboardEntry[] = members
-  .map((m, i) => ({
-    rank: i + 1,
+  .map(m => ({
+    rank: 0,
     memberId: m.id,
     name: m.name,
     avatar: m.avatar,
@@ -1029,7 +1307,7 @@ export const leaderboard: LeaderboardEntry[] = members
 
 export interface Notification {
   id: string;
-  type: 'vote' | 'proposal' | 'flow' | 'chat' | 'reward' | 'member';
+  type: 'proposal' | 'market' | 'objective' | 'reward' | 'executor' | 'member';
   title: string;
   description: string;
   time: string;
@@ -1038,20 +1316,12 @@ export interface Notification {
 }
 
 export const notifications: Notification[] = [
-  { id: 'n1', type: 'vote', title: 'Vote ending soon', description: 'TerraAI SE Asia expansion — 2 days remaining', time: '5m ago', read: false },
-  { id: 'n2', type: 'reward', title: 'Tokens earned', description: 'You earned 150 SYMBIO for winning the Symbiome vote', time: '2h ago', read: false },
-  { id: 'n3', type: 'proposal', title: 'New proposal', description: 'Helix Health: Deploy 12 Appalachian Telehealth Nodes', time: '4h ago', read: false },
-  { id: 'n4', type: 'chat', title: 'New message from EquiLend', description: 'Response to your lending pool question', time: '5h ago', read: true },
-  { id: 'n5', type: 'flow', title: 'Flow session available', description: 'CivicChain Budget Hall is live with 56 members', time: '8h ago', read: true },
-  { id: 'n6', type: 'member', title: 'New member joined', description: 'Dr. Lin Wei joined DeepField', time: '1d ago', read: true },
-  { id: 'n7', type: 'vote', title: 'Vote passed', description: 'Symbiome Phase 2 Soil Restoration passed with 87% approval', time: '1d ago', read: true },
+  { id: 'n1', type: 'proposal', title: 'Market closing soon', description: 'Benefits Navigator — 4 days remaining, Pass price 0.82', time: '4m ago', read: false },
+  { id: 'n2', type: 'reward', title: 'Pass tokens resolved', description: 'You earned 340 SBX from OSS Consciousness Protocol Pass', time: '1h ago', read: false },
+  { id: 'n3', type: 'executor', title: 'Executor deployed', description: 'Release-Executor just pushed Consciousness Protocol v0.4 to GitHub', time: '1h ago', read: false },
+  { id: 'n4', type: 'proposal', title: 'New proposal in Design', description: 'Silicon Beach: Coastal Creator Residency Cohort entering Decide April 22', time: '3h ago', read: true },
+  { id: 'n5', type: 'objective', title: 'Objective update', description: 'Psychological Safety rose 0.4 SD across 12 pilot companies', time: '5h ago', read: true },
+  { id: 'n6', type: 'market', title: 'Market milestone', description: 'Service Alliance crossed 3,400 members', time: '1d ago', read: true },
+  { id: 'n7', type: 'member', title: 'New architect joined', description: 'Jorge Medina accepted the Navigator-Voice chair', time: '1d ago', read: true },
   { id: 'n8', type: 'reward', title: 'Weekly rewards', description: 'Earned 100 KIN for platform participation', time: '2d ago', read: true },
 ];
-
-// ── DUNA Examples ───────────────────────────────────────────────────────────
-// These illustrate how different industries would operate as DUNAs:
-// - Mortgage DUNA: Agents negotiate rates, assess risk, borrowers interact through Presences
-// - Realtor DUNA: Agents match buyers/sellers, negotiate terms via Vibe Contracts
-// - Tech Startup DUNA: Agents manage sprints, allocate resources, investors vote on milestones
-// - Consultancy DUNA: Agents pair consultants with clients, track transformation metrics
-// - Healthcare Provider DUNA: Agents triage, schedule, monitor outcomes, patients interact through Presences

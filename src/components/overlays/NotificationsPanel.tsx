@@ -1,8 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { X, Vote, Gift, MessageCircle, Bell, Users, Waves } from 'lucide-react';
-import { notifications, type Notification } from '@/data/mockData';
+import { X, ScrollText, Gift, Target, Globe, Users, Wrench } from 'lucide-react';
+import { notifications } from '@/data/mockData';
 
 interface NotificationsPanelProps {
   onClose: () => void;
@@ -12,12 +12,12 @@ export default function NotificationsPanel({ onClose }: NotificationsPanelProps)
   const unreadCount = notifications.filter(n => !n.read).length;
 
   const typeConfig: Record<string, { icon: React.ReactNode; color: string }> = {
-    vote: { icon: <Vote size={14} />, color: '#6536B4' },
-    proposal: { icon: <Bell size={14} />, color: '#FFCA00' },
-    flow: { icon: <Waves size={14} />, color: '#03CCDA' },
-    chat: { icon: <MessageCircle size={14} />, color: '#7EB8A8' },
-    reward: { icon: <Gift size={14} />, color: '#00EB7A' },
-    member: { icon: <Users size={14} />, color: '#EC008C' },
+    proposal:  { icon: <ScrollText size={14} />, color: '#03CCDA' },
+    market:    { icon: <Globe size={14}     />, color: '#FFCA00' },
+    objective: { icon: <Target size={14}    />, color: '#EC008C' },
+    executor:  { icon: <Wrench size={14}    />, color: '#6536B4' },
+    reward:    { icon: <Gift size={14}      />, color: '#00EB7A' },
+    member:    { icon: <Users size={14}     />, color: '#7EB8A8' },
   };
 
   return (
@@ -57,7 +57,7 @@ export default function NotificationsPanel({ onClose }: NotificationsPanelProps)
       <div className="flex-1 overflow-y-auto px-5 pb-10" style={{ scrollbarWidth: 'none' }}>
         <div className="flex flex-col gap-1">
           {notifications.map((notif, i) => {
-            const cfg = typeConfig[notif.type] || typeConfig.chat;
+            const cfg = typeConfig[notif.type] || typeConfig.market;
 
             return (
               <motion.button

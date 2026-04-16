@@ -1,9 +1,9 @@
 'use client';
 
-import { MessageCircle, Waves, Search, Vote, Coins } from 'lucide-react';
+import { MessageCircle, Globe, Target, ScrollText, Coins } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-export type TabId = 'chat' | 'flow' | 'seek' | 'vote' | 'earn';
+export type TabId = 'chat' | 'markets' | 'objectives' | 'proposals' | 'earn';
 
 interface BottomNavProps {
   active: TabId;
@@ -11,11 +11,11 @@ interface BottomNavProps {
 }
 
 const tabs: { id: TabId; label: string; Icon: typeof MessageCircle }[] = [
-  { id: 'chat', label: 'Chat', Icon: MessageCircle },
-  { id: 'flow', label: 'Flow', Icon: Waves },
-  { id: 'seek', label: 'Seek', Icon: Search },
-  { id: 'vote', label: 'Vote', Icon: Vote },
-  { id: 'earn', label: 'Earn', Icon: Coins },
+  { id: 'chat',       label: 'Chat',       Icon: MessageCircle },
+  { id: 'markets',    label: 'Markets',    Icon: Globe },
+  { id: 'objectives', label: 'Objectives', Icon: Target },
+  { id: 'proposals',  label: 'Proposals',  Icon: ScrollText },
+  { id: 'earn',       label: 'Earn',       Icon: Coins },
 ];
 
 export default function BottomNav({ active, onChange }: BottomNavProps) {

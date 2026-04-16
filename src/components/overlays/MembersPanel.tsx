@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { X, ArrowLeft, MessageCircle, TrendingUp, Heart, Shield } from 'lucide-react';
-import { members, type Member } from '@/data/mockData';
+import { members, markets, type Member } from '@/data/mockData';
 
 interface MembersPanelProps {
   onClose: () => void;
@@ -27,7 +27,6 @@ export default function MembersPanel({ onClose }: MembersPanelProps) {
     >
       <div style={{ height: 54, flexShrink: 0 }} />
 
-      {/* Header */}
       <div className="flex items-center justify-between px-5 pb-3 flex-shrink-0">
         <h1 className="text-[26px] tracking-wide" style={{ fontFamily: 'var(--font-brand)', color: 'var(--color-text-primary)', fontWeight: 700 }}>
           Members
@@ -40,10 +39,9 @@ export default function MembersPanel({ onClose }: MembersPanelProps) {
       </div>
 
       <p className="text-[12px] px-5 mb-4" style={{ color: 'var(--color-text-tertiary)' }}>
-        {members.length} members &middot; Tap to view Presence
+        {members.length} Sponsors, Citizens, and Architects &middot; Tap to view Presence
       </p>
 
-      {/* Member list */}
       <div className="flex-1 overflow-y-auto px-5 pb-10" style={{ scrollbarWidth: 'none' }}>
         <div className="flex flex-col gap-2">
           {members.map((member, i) => (
@@ -78,8 +76,14 @@ export default function MembersPanel({ onClose }: MembersPanelProps) {
                 <span
                   className="text-[9px] px-1.5 py-0.5 rounded-full uppercase font-bold"
                   style={{
-                    background: member.memberType === 'member' ? 'rgba(3,204,218,0.15)' : 'rgba(255,255,255,0.06)',
-                    color: member.memberType === 'member' ? '#03CCDA' : 'var(--color-text-tertiary)',
+                    background:
+                      member.memberType === 'sponsor' ? 'rgba(255,202,0,0.15)'
+                      : member.memberType === 'architect' ? 'rgba(236,0,140,0.15)'
+                      : 'rgba(3,204,218,0.15)',
+                    color:
+                      member.memberType === 'sponsor' ? '#FFCA00'
+                      : member.memberType === 'architect' ? '#EC008C'
+                      : '#03CCDA',
                   }}
                 >
                   {member.memberType}
@@ -94,6 +98,8 @@ export default function MembersPanel({ onClose }: MembersPanelProps) {
 }
 
 function MemberDetail({ member, onBack, onClose }: { member: Member; onBack: () => void; onClose: () => void }) {
+  const memberMarkets = markets.filter(m => member.markets.includes(m.id));
+
   return (
     <motion.div
       className="absolute inset-0 z-50 flex flex-col"
@@ -105,7 +111,6 @@ function MemberDetail({ member, onBack, onClose }: { member: Member; onBack: () 
     >
       <div style={{ height: 54, flexShrink: 0 }} />
 
-      {/* Header */}
       <div className="flex items-center justify-between px-5 pb-3 flex-shrink-0">
         <div className="flex items-center gap-3">
           <motion.button whileTap={{ scale: 0.9 }} onClick={onBack}>
@@ -123,15 +128,12 @@ function MemberDetail({ member, onBack, onClose }: { member: Member; onBack: () 
       </div>
 
       <div className="flex-1 overflow-y-auto px-5 pb-10" style={{ scrollbarWidth: 'none' }}>
-        {/* Profile card */}
         <div className="rounded-2xl overflow-hidden mb-4" style={{ background: 'var(--color-surface-card)', border: '1px solid var(--color-border-subtle)' }}>
-          {/* Banner */}
           <div className="relative h-24" style={{ background: `linear-gradient(135deg, ${member.color}30 0%, ${member.color}10 100%)` }}>
             <div className="absolute inset-0" style={{ background: `radial-gradient(circle at 30% 60%, ${member.color}40 0%, transparent 60%)` }} />
           </div>
 
           <div className="px-4 pb-4">
-            {/* Avatar */}
             <div className="w-16 h-16 rounded-full flex items-center justify-center text-3xl -mt-8 mb-3"
               style={{ background: `${member.color}25`, border: '3px solid var(--color-background)' }}>
               {member.avatar}
@@ -150,7 +152,6 @@ function MemberDetail({ member, onBack, onClose }: { member: Member; onBack: () 
               {member.bio}
             </p>
 
-            {/* Agent info */}
             <div className="rounded-xl p-3 mb-3" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid var(--color-border-subtle)' }}>
               <p className="text-[10px] uppercase tracking-wider mb-1" style={{ color: 'var(--color-text-tertiary)' }}>
                 Presence Agent
@@ -160,7 +161,6 @@ function MemberDetail({ member, onBack, onClose }: { member: Member; onBack: () 
               </p>
             </div>
 
-            {/* Scores */}
             <div className="grid grid-cols-3 gap-2 mb-3">
               <div className="rounded-xl p-2.5 text-center" style={{ background: 'rgba(3,204,218,0.08)' }}>
                 <Shield size={14} className="mx-auto mb-1" style={{ color: '#03CCDA' }} />
@@ -175,26 +175,30 @@ function MemberDetail({ member, onBack, onClose }: { member: Member; onBack: () 
               <div className="rounded-xl p-2.5 text-center" style={{ background: 'rgba(236,0,140,0.08)' }}>
                 <Heart size={14} className="mx-auto mb-1" style={{ color: '#EC008C' }} />
                 <p className="text-[14px] font-bold" style={{ color: '#EC008C' }}>{member.benefitScore.toLocaleString()}</p>
-                <p className="text-[9px]" style={{ color: 'var(--color-text-tertiary)' }}>Benefits</p>
+                <p className="text-[9px]" style={{ color: 'var(--color-text-tertiary)' }}>Benefit</p>
               </div>
             </div>
 
-            {/* Projects */}
             <div className="mb-3">
               <p className="text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--color-text-tertiary)' }}>
-                Projects
+                Markets
               </p>
               <div className="flex gap-2 flex-wrap">
-                {member.projects.map(p => (
-                  <span key={p} className="text-[11px] px-2.5 py-1 rounded-full font-medium"
-                    style={{ background: `${member.color}15`, color: member.color }}>
-                    {p}
+                {memberMarkets.map(m => (
+                  <span key={m.id} className="text-[11px] px-2.5 py-1 rounded-full font-medium"
+                    style={{ background: `${m.color}15`, color: m.color }}>
+                    {m.avatar} {m.name}
                   </span>
                 ))}
+                {member.markets.includes('kinship') && (
+                  <span className="text-[11px] px-2.5 py-1 rounded-full font-medium"
+                    style={{ background: 'rgba(255,202,0,0.15)', color: '#FFCA00' }}>
+                    ✦ Kinship
+                  </span>
+                )}
               </div>
             </div>
 
-            {/* Communicate button */}
             <motion.button
               whileTap={{ scale: 0.97 }}
               className="w-full py-2.5 rounded-xl text-[13px] font-medium flex items-center justify-center gap-2"

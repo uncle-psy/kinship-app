@@ -3,16 +3,15 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
-  TrendingUp, TrendingDown, ArrowUpRight, ArrowDownLeft,
-  CheckCircle, XCircle, ShoppingCart, Coins, Award, Vote,
+  TrendingUp, TrendingDown, CheckCircle, XCircle, Coins, Award, ShoppingCart, Wrench,
 } from 'lucide-react';
-import { projectTokens, walletTransactions, type ProjectToken, type WalletTransaction } from '@/data/mockData';
+import { holdings, walletTransactions, type HoldingToken } from '@/data/mockData';
 
 type EarnTab = 'holdings' | 'history' | 'charts';
 
 export default function VaultView() {
   const [activeTab, setActiveTab] = useState<EarnTab>('holdings');
-  const totalValue = projectTokens.reduce((sum, c) => sum + c.value, 0);
+  const totalValue = holdings.reduce((sum, c) => sum + c.value, 0);
   const [displayValue, setDisplayValue] = useState(0);
 
   useEffect(() => {
@@ -37,7 +36,6 @@ export default function VaultView() {
         style={{ width: 220, height: 220, background: 'var(--color-accent-gold)', top: -80, left: '50%', marginLeft: -110 }}
       />
 
-      {/* Total balance */}
       <motion.div
         className="text-center mb-5 pt-2"
         initial={{ opacity: 0, y: 20 }}
@@ -58,12 +56,14 @@ export default function VaultView() {
         <div className="flex items-center justify-center gap-1.5 mt-1">
           <TrendingUp size={14} style={{ color: 'var(--color-success)' }} />
           <span className="text-[13px] font-medium" style={{ color: 'var(--color-success)' }}>
-            +11.2% this week
+            +13.8% this week
           </span>
         </div>
+        <p className="text-[11px] mt-1" style={{ color: 'var(--color-text-tertiary)' }}>
+          Market tokens + live Pass/Fail positions
+        </p>
       </motion.div>
 
-      {/* Tab switcher */}
       <div
         className="flex p-1 rounded-xl mb-4"
         style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border-subtle)' }}
@@ -85,8 +85,8 @@ export default function VaultView() {
       </div>
 
       {activeTab === 'holdings' && <HoldingsTab />}
-      {activeTab === 'history' && <HistoryTab />}
-      {activeTab === 'charts' && <ChartsTab />}
+      {activeTab === 'history'  && <HistoryTab />}
+      {activeTab === 'charts'   && <ChartsTab />}
     </div>
   );
 }
@@ -94,7 +94,7 @@ export default function VaultView() {
 function HoldingsTab() {
   return (
     <div className="flex flex-col gap-2">
-      {projectTokens.map((token, i) => (
+      {holdings.map((token, i) => (
         <motion.div
           key={token.id}
           initial={{ opacity: 0, x: -20 }}
@@ -108,7 +108,8 @@ function HoldingsTab() {
   );
 }
 
-function TokenRow({ token }: { token: ProjectToken }) {
+function TokenRow({ token }: { token: HoldingToken }) {
+  const isConditional = token.symbol.startsWith('PASS-') || token.symbol.startsWith('FAIL-');
   return (
     <div
       className="flex items-center gap-3 p-3 rounded-2xl"
@@ -120,15 +121,19 @@ function TokenRow({ token }: { token: ProjectToken }) {
       >
         {token.icon}
       </div>
-      <div className="flex-1">
-        <div className="flex items-center justify-between">
-          <p className="text-[14px] font-medium" style={{ color: 'var(--color-text-primary)' }}>{token.name}</p>
-          <p className="text-[14px] font-bold" style={{ color: 'var(--color-text-primary)' }}>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center justify-between gap-2">
+          <p className="text-[14px] font-medium truncate" style={{ color: 'var(--color-text-primary)' }}>
+            {token.name}
+          </p>
+          <p className="text-[14px] font-bold flex-shrink-0" style={{ color: 'var(--color-text-primary)' }}>
             {token.amount.toLocaleString()}
           </p>
         </div>
         <div className="flex items-center justify-between mt-0.5">
-          <p className="text-[11px]" style={{ color: 'var(--color-text-tertiary)' }}>{token.symbol}</p>
+          <p className="text-[11px]" style={{ color: isConditional ? token.color : 'var(--color-text-tertiary)' }}>
+            {token.symbol}
+          </p>
           <div className="flex items-center gap-1">
             <span className="text-[11px]" style={{ color: 'var(--color-text-tertiary)' }}>
               ${token.value.toFixed(2)}
@@ -149,19 +154,20 @@ function TokenRow({ token }: { token: ProjectToken }) {
 
 function HistoryTab() {
   const typeConfig: Record<string, { icon: React.ReactNode; color: string; label: string }> = {
-    'earned-participation': { icon: <Award size={14} />, color: 'var(--color-success)', label: 'Participation' },
-    'earned-vote-win': { icon: <CheckCircle size={14} />, color: 'var(--color-success)', label: 'Vote Win' },
-    'earned-vote-loss': { icon: <XCircle size={14} />, color: 'var(--color-danger)', label: 'Vote Loss' },
-    'voted': { icon: <Vote size={14} />, color: 'var(--color-accent-lavender)', label: 'Voted' },
-    'purchased': { icon: <ShoppingCart size={14} />, color: 'var(--color-accent-teal)', label: 'Purchased' },
-    'staked': { icon: <Coins size={14} />, color: 'var(--color-accent-gold)', label: 'Staked' },
-    'reward': { icon: <Award size={14} />, color: 'var(--color-accent-gold)', label: 'Reward' },
+    'pass-purchased':  { icon: <ShoppingCart size={14} />, color: 'var(--color-success)',        label: 'Pass Buy' },
+    'fail-purchased':  { icon: <ShoppingCart size={14} />, color: 'var(--color-danger)',         label: 'Fail Buy' },
+    'pass-resolved':   { icon: <CheckCircle size={14}  />, color: 'var(--color-success)',        label: 'Pass Win' },
+    'fail-resolved':   { icon: <XCircle size={14}      />, color: 'var(--color-danger)',         label: 'Fail Loss' },
+    'market-earned':   { icon: <Award size={14}        />, color: 'var(--color-accent-gold)',    label: 'Earned' },
+    'executor-paid':   { icon: <Wrench size={14}       />, color: 'var(--color-accent-lavender)',label: 'Executor' },
+    'stake':           { icon: <Coins size={14}        />, color: 'var(--color-accent-teal)',    label: 'Staked' },
+    'reward':          { icon: <Award size={14}        />, color: 'var(--color-accent-gold)',    label: 'Reward' },
   };
 
   return (
     <div className="flex flex-col gap-1">
       {walletTransactions.map((tx, i) => {
-        const cfg = typeConfig[tx.type] || typeConfig['earned-participation'];
+        const cfg = typeConfig[tx.type] || typeConfig['market-earned'];
         const isPositive = tx.amount > 0;
 
         return (
@@ -175,9 +181,7 @@ function HistoryTab() {
           >
             <div
               className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
-              style={{
-                background: isPositive ? 'rgba(0,235,122,0.1)' : 'rgba(255,58,58,0.1)',
-              }}
+              style={{ background: isPositive ? 'rgba(0,235,122,0.1)' : 'rgba(255,58,58,0.1)' }}
             >
               <span style={{ color: cfg.color }}>{cfg.icon}</span>
             </div>
@@ -209,9 +213,8 @@ function HistoryTab() {
 }
 
 function ChartsTab() {
-  // Simplified chart visualization
-  const tokens = projectTokens.slice(0, 5);
-  const maxValue = Math.max(...tokens.map(t => t.value));
+  const topHoldings = holdings.slice(0, 6);
+  const maxValue = Math.max(...topHoldings.map(t => t.value));
 
   return (
     <div>
@@ -219,9 +222,8 @@ function ChartsTab() {
         Portfolio Distribution
       </p>
 
-      {/* Bar chart */}
       <div className="flex flex-col gap-3 mb-6">
-        {tokens.map((token, i) => {
+        {topHoldings.map((token, i) => {
           const pct = (token.value / maxValue) * 100;
           return (
             <motion.div
@@ -231,9 +233,9 @@ function ChartsTab() {
               transition={{ delay: i * 0.08 }}
             >
               <div className="flex items-center justify-between mb-1">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 min-w-0 flex-1">
                   <span className="text-sm">{token.icon}</span>
-                  <span className="text-[12px] font-medium" style={{ color: 'var(--color-text-primary)' }}>
+                  <span className="text-[12px] font-medium truncate" style={{ color: 'var(--color-text-primary)' }}>
                     {token.symbol}
                   </span>
                 </div>
@@ -255,23 +257,22 @@ function ChartsTab() {
         })}
       </div>
 
-      {/* Performance summary */}
       <div className="rounded-2xl p-4" style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border-subtle)' }}>
         <p className="text-[12px] font-medium mb-3" style={{ color: 'var(--color-text-secondary)' }}>
-          7-Day Performance
+          7-Day KAM Activity
         </p>
         <div className="grid grid-cols-3 gap-3">
           <div className="text-center">
-            <p className="text-[18px] font-bold" style={{ color: 'var(--color-success)' }}>+$284</p>
-            <p className="text-[10px]" style={{ color: 'var(--color-text-tertiary)' }}>Earnings</p>
+            <p className="text-[18px] font-bold" style={{ color: 'var(--color-success)' }}>+$386</p>
+            <p className="text-[10px]" style={{ color: 'var(--color-text-tertiary)' }}>Pass Earnings</p>
           </div>
           <div className="text-center">
-            <p className="text-[18px] font-bold" style={{ color: 'var(--color-accent-teal)' }}>12</p>
-            <p className="text-[10px]" style={{ color: 'var(--color-text-tertiary)' }}>Transactions</p>
+            <p className="text-[18px] font-bold" style={{ color: 'var(--color-accent-teal)' }}>8</p>
+            <p className="text-[10px]" style={{ color: 'var(--color-text-tertiary)' }}>Proposals Priced</p>
           </div>
           <div className="text-center">
-            <p className="text-[18px] font-bold" style={{ color: 'var(--color-accent-gold)' }}>4</p>
-            <p className="text-[10px]" style={{ color: 'var(--color-text-tertiary)' }}>Votes Cast</p>
+            <p className="text-[18px] font-bold" style={{ color: 'var(--color-accent-gold)' }}>3</p>
+            <p className="text-[10px]" style={{ color: 'var(--color-text-tertiary)' }}>Markets Joined</p>
           </div>
         </div>
       </div>
